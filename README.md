@@ -16,11 +16,8 @@
       --mid: #c8c4b8;
       --soft: #e8e4dc;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
-
     body {
       background: var(--ink);
       color: var(--paper);
