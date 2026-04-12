@@ -1,0 +1,680 @@
+<!doctype html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Contact | Vlok Production</title>
+    <link rel="icon" type="image/png" href="./img/Logog Small.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed": "#000f5d",
+              "surface-tint": "#2c4de1",
+              "secondary-fixed-dim": "#bbc3ff",
+              "on-error": "#ffffff",
+              "on-tertiary-fixed-variant": "#8c1800",
+              "tertiary-fixed-dim": "#ffb4a4",
+              "surface-dim": "#d6dae5",
+              "tertiary-container": "#911900",
+              "on-secondary-fixed-variant": "#002ccd",
+              secondary: "#1c3fe7",
+              "on-tertiary-container": "#ffa08b",
+              "on-surface": "#171c23",
+              "outline-variant": "#c4c5d8",
+              "on-background": "#171c23",
+              "primary-container": "#0033cc",
+              surface: "#f8f9ff",
+              "on-primary": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-secondary": "#ffffff",
+              "secondary-fixed": "#dee0ff",
+              "on-error-container": "#93000a",
+              "on-primary-fixed-variant": "#0031c5",
+              "surface-container-lowest": "#ffffff",
+              "inverse-on-surface": "#edf1fc",
+              outline: "#747687",
+              "surface-container-low": "#eff3fe",
+              "primary-fixed": "#dee1ff",
+              error: "#ba1a1a",
+              "tertiary-fixed": "#ffdad3",
+              "inverse-surface": "#2c3139",
+              "surface-container": "#eaeef9",
+              "surface-bright": "#f8f9ff",
+              "surface-container-high": "#e4e8f3",
+              "primary-fixed-dim": "#bac3ff",
+              "surface-container-highest": "#dee2ed",
+              primary: "#002294",
+              background: "#f8f9ff",
+              "on-tertiary": "#ffffff",
+              "surface-variant": "#dee2ed",
+              "on-tertiary-fixed": "#3d0500",
+              "on-primary-container": "#a8b5ff",
+              "inverse-primary": "#bac3ff",
+              "on-surface-variant": "#444655",
+              tertiary: "#680f00",
+              "secondary-container": "#405cff",
+              "on-secondary-container": "#f5f3ff",
+              "on-primary-fixed": "#001159",
+            },
+            borderRadius: {
+              DEFAULT: "1rem",
+              lg: "2rem",
+              xl: "3rem",
+              full: "9999px",
+            },
+            fontFamily: {
+              headline: ["Plus Jakarta Sans"],
+              body: ["Plus Jakarta Sans"],
+              label: ["Plus Jakarta Sans"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #f8f9ff;
+        background-image:
+          linear-gradient(#e0e7ff 1px, transparent 1px),
+          linear-gradient(90deg, #e0e7ff 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+        vertical-align: middle;
+      }
+      .blueprint-plus {
+        position: absolute;
+        color: #0033cc;
+        font-size: 24px;
+        font-weight: 300;
+      }
+      .mobile-nav {
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 1.5rem;
+        background:
+          radial-gradient(circle at top right, rgba(186, 195, 255, 0.55), transparent 28%),
+          linear-gradient(180deg, rgba(248, 249, 255, 0.98), rgba(239, 243, 254, 0.98));
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(-100%);
+        transition:
+          opacity 260ms ease,
+          transform 360ms cubic-bezier(0.22, 1, 0.36, 1),
+          visibility 0s linear 360ms;
+      }
+      .mobile-nav.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
+        transition:
+          opacity 260ms ease,
+          transform 360ms cubic-bezier(0.22, 1, 0.36, 1),
+          visibility 0s linear 0s;
+      }
+      .mobile-nav-link {
+        opacity: 0;
+        transform: translateY(18px);
+        transition:
+          opacity 280ms ease,
+          transform 280ms ease,
+          color 200ms ease;
+      }
+      .mobile-nav.is-open .mobile-nav-link {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .mobile-nav.is-open .mobile-nav-link:nth-child(1) {
+        transition-delay: 70ms;
+      }
+      .mobile-nav.is-open .mobile-nav-link:nth-child(2) {
+        transition-delay: 130ms;
+      }
+      .mobile-nav.is-open .mobile-nav-link:nth-child(3) {
+        transition-delay: 190ms;
+      }
+      .mobile-nav.is-open .mobile-nav-link:nth-child(4) {
+        transition-delay: 250ms;
+      }
+      .mobile-nav.is-open .mobile-nav-link:nth-child(5) {
+        transition-delay: 310ms;
+      }
+      body.mobile-menu-open {
+        overflow: hidden;
+      }
+      .reveal-text,
+      .reveal-card {
+        opacity: 0;
+        will-change: transform, opacity, filter;
+        transition:
+          opacity 680ms ease,
+          transform 680ms cubic-bezier(0.22, 1, 0.36, 1),
+          filter 680ms ease;
+        transition-delay: var(--reveal-delay, 0ms);
+      }
+      .reveal-text {
+        transform: translateY(26px);
+        filter: blur(8px);
+      }
+      .reveal-card {
+        transform: translateY(34px) scale(0.985);
+        filter: blur(12px);
+      }
+      .reveal-text.is-visible,
+      .reveal-card.is-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+      .contact-form-status {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(8px);
+        transition:
+          max-height 320ms ease,
+          opacity 260ms ease,
+          transform 260ms ease;
+      }
+      .contact-form-status.is-visible {
+        max-height: 4rem;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .reveal-text,
+        .reveal-card {
+          opacity: 1;
+          transform: none;
+          filter: none;
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="text-on-background">
+    <!-- TopNavBar -->
+    <nav
+      class="fixed top-0 w-full z-50 rounded-b-2xl bg-blue-50/15 backdrop-blur-xl border-b-2 border-blue-700/10 shadow-[0_10px_40px_-15px_rgba(0,51,204,0.06)]"
+    >
+      <div
+        class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto"
+      >
+        <div
+          class="text-2xl font-black text-blue-700 tracking-tighter"
+        >
+          Vlok Production
+        </div>
+        <div class="hidden md:flex items-center gap-8">
+          <a
+            class="text-slate-600 font-medium text-xs uppercase tracking-widest hover:text-blue-600 transition-colors duration-300"
+            href="index.html"
+            >Home</a
+          >
+          <a
+            class="text-slate-600 font-medium text-xs uppercase tracking-widest hover:text-blue-600 transition-colors duration-300"
+            href="about.html"
+            >About</a
+          >
+          <a
+            class="text-slate-600 font-medium text-xs uppercase tracking-widest hover:text-blue-600 transition-colors duration-300"
+            href="projects.html"
+            >Our Work</a
+          >
+          <a
+            class="text-slate-600 font-medium text-xs uppercase tracking-widest hover:text-blue-600 transition-colors duration-300"
+            href="pricing.html"
+            >Pricing</a
+          >
+          <a
+            class="text-blue-700 font-bold border-b-2 border-blue-700 text-xs uppercase tracking-widest transition-colors duration-300"
+            href="contact.html"
+            >Contact</a
+          >
+        </div>
+        <button
+          class="hidden md:inline-flex bg-primary-container text-on-primary px-6 py-2.5 rounded-full font-bold scale-95 active:scale-90 transition-transform shadow-lg shadow-blue-700/20"
+        >
+          Get Started
+        </button>
+        <button
+          aria-controls="mobile-nav"
+          aria-expanded="false"
+          aria-label="Open navigation menu"
+          class="md:hidden inline-flex h-12 w-12 items-center justify-center rounded-full border-2 border-primary/15 bg-white/80 text-primary shadow-lg shadow-blue-700/10 backdrop-blur"
+          data-mobile-nav-open
+          type="button"
+        >
+          <span class="material-symbols-outlined" data-icon="menu">menu</span>
+        </button>
+      </div>
+    </nav>
+    <div
+      aria-hidden="true"
+      class="mobile-nav md:hidden"
+      data-mobile-nav
+      id="mobile-nav"
+    >
+      <div class="flex items-center justify-between">
+        <div class="text-2xl font-black text-blue-700 tracking-tighter">
+          Vlok Production
+        </div>
+        <button
+          aria-label="Close navigation menu"
+          class="inline-flex h-12 w-12 items-center justify-center rounded-full border-2 border-primary/15 bg-white text-primary shadow-lg shadow-blue-700/10"
+          data-mobile-nav-close
+          type="button"
+        >
+          <span class="material-symbols-outlined" data-icon="close">close</span>
+        </button>
+      </div>
+      <div class="flex flex-1 flex-col justify-center gap-5">
+        <a class="mobile-nav-link text-4xl font-black tracking-tight text-on-surface hover:text-primary" href="index.html">Home</a>
+        <a class="mobile-nav-link text-4xl font-black tracking-tight text-on-surface hover:text-primary" href="about.html">About</a>
+        <a class="mobile-nav-link text-4xl font-black tracking-tight text-on-surface hover:text-primary" href="projects.html">Our Work</a>
+        <a class="mobile-nav-link text-4xl font-black tracking-tight text-on-surface hover:text-primary" href="pricing.html">Pricing</a>
+        <a class="mobile-nav-link text-4xl font-black tracking-tight text-primary" href="contact.html">Contact</a>
+      </div>
+      <div class="flex items-center justify-between gap-4">
+        <p class="max-w-[12rem] text-sm font-medium leading-relaxed text-on-surface-variant">
+          Bold interfaces, precise builds, and full-scale digital execution.
+        </p>
+        <a class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-bold text-white shadow-lg shadow-blue-700/20" href="contact.html">Get Started</a>
+      </div>
+    </div>
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto relative">
+      <!-- Blueprint Plus Accents -->
+      <span class="blueprint-plus top-32 left-4">+</span>
+      <span class="blueprint-plus top-32 right-4">+</span>
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <!-- Left Column: Content & Branding -->
+        <div class="relative">
+          <div class="mb-8">
+            <span
+              class="text-primary-container font-label text-xs uppercase tracking-widest font-bold mb-4 block"
+              >Communication Portal</span
+            >
+            <h1
+              class="text-6xl md:text-7xl font-headline font-extrabold text-primary tracking-tighter leading-[0.9] mb-6"
+            >
+              Let's Build <br />Something.
+            </h1>
+            <p class="text-lg text-on-surface-variant max-w-md leading-relaxed">
+              Ready to transform your technical requirements into a high-energy
+              creative masterpiece? Our draftsmen are standing by.
+            </p>
+          </div>
+          <!-- Memphis Illustration Container -->
+          <div
+            class="relative w-full aspect-square max-w-sm mt-12 bg-surface-container-low rounded-lg border-4 border-primary-container overflow-visible"
+          >
+            <img
+              alt="Customer support illustration"
+              class="absolute -bottom-8 -right-8 w-full h-full object-contain"
+              data-alt="Customer support illustration"
+              src="./img/customer-support_17042561.png"
+            />
+            <!-- Decorative Memphis Squiggle -->
+            <svg
+              class="absolute -top-10 -left-10 w-24 h-24 text-primary-container/20"
+              viewbox="0 0 100 100"
+            >
+              <path
+                d="M10,50 Q25,25 40,50 T70,50"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="4"
+              ></path>
+            </svg>
+          </div>
+          <!-- Contact Details Grid -->
+          <div class="mt-20 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="flex items-start gap-4">
+              <div
+                class="w-12 h-12 bg-primary-container text-on-primary rounded-lg flex items-center justify-center shrink-0"
+              >
+                <span class="material-symbols-outlined" data-icon="mail"
+                  >mail</span
+                >
+              </div>
+              <div>
+                <p
+                  class="text-xs font-bold text-primary-container uppercase tracking-widest mb-1"
+                >
+                  Email Us
+                </p>
+                <p class="text-on-surface font-semibold">
+                  vlokproduction@gmail.com
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div
+                class="w-12 h-12 bg-primary-container text-on-primary rounded-lg flex items-center justify-center shrink-0"
+              >
+                <span class="material-symbols-outlined" data-icon="call"
+                  >call</span
+                >
+              </div>
+              <div>
+                <p
+                  class="text-xs font-bold text-primary-container uppercase tracking-widest mb-1"
+                >
+                  Call HQ
+                </p>
+                <p class="text-on-surface font-semibold">+94 760678411</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4 md:col-span-2">
+              <div
+                class="w-12 h-12 bg-primary-container text-on-primary rounded-lg flex items-center justify-center shrink-0"
+              >
+                <span class="material-symbols-outlined" data-icon="location_on"
+                  >location_on</span
+                >
+              </div>
+              <div>
+                <p
+                  class="text-xs font-bold text-primary-container uppercase tracking-widest mb-1"
+                >
+                  Studio Location
+                </p>
+                <p class="text-on-surface font-semibold">
+                  389,George E de Silva Rd, Kandy
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Right Column: The Contact Card -->
+        <div class="relative">
+          <!-- Abstract Zig-Zag behind card -->
+          <div
+            class="absolute -top-6 -right-6 w-32 h-32 text-primary-container opacity-10 pointer-events-none"
+          >
+            <svg class="w-full h-full" viewbox="0 0 100 100">
+              <path
+                d="M0,20 L20,0 L40,20 L60,0 L80,20 L100,0"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="8"
+              ></path>
+            </svg>
+          </div>
+          <div
+            class="bg-surface-container-lowest border-[3px] border-primary-container rounded-lg p-8 md:p-12 shadow-[0_20px_50px_rgba(0,51,204,0.1)] relative z-10"
+          >
+            <h3
+              class="text-3xl font-headline font-bold text-primary mb-8 tracking-tight"
+            >
+              Project Inquiry
+            </h3>
+            <form class="space-y-6" data-web3form="contact">
+              <input type="hidden" name="access_key" value="0f984288-0b1c-419d-8df1-09dc6059f538" />
+              <input type="hidden" name="subject" value="New Contact Inquiry - Vlok Production" />
+              <input type="hidden" name="from_name" value="Vlok Production Website" />
+              <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
+              <div class="space-y-2">
+                <label
+                  class="text-xs font-bold text-primary-container uppercase tracking-widest"
+                  for="contact-name">Full Name</label
+                >
+                <input
+                  id="contact-name"
+                  class="w-full bg-surface-container-low border-b-2 border-outline-variant focus:border-primary-container focus:ring-0 px-4 py-3 transition-all rounded-t-lg"
+                  name="name"
+                  placeholder="John Architect"
+                  required
+                  type="text"
+                />
+              </div>
+              <div class="space-y-2">
+                <label
+                  class="text-xs font-bold text-primary-container uppercase tracking-widest"
+                  for="contact-email">Email Address</label
+                >
+                <input
+                  id="contact-email"
+                  class="w-full bg-surface-container-low border-b-2 border-outline-variant focus:border-primary-container focus:ring-0 px-4 py-3 transition-all rounded-t-lg"
+                  name="email"
+                  placeholder="john@company.com"
+                  required
+                  type="email"
+                />
+              </div>
+              <div class="space-y-2">
+                <label
+                  class="text-xs font-bold text-primary-container uppercase tracking-widest"
+                  for="contact-service">Service Interest</label
+                >
+                <select
+                  id="contact-service"
+                  class="w-full bg-surface-container-low border-b-2 border-outline-variant focus:border-primary-container focus:ring-0 px-4 py-3 transition-all rounded-t-lg"
+                  name="service_interest"
+                >
+                  <option>Web Development</option>
+                  <option>Automation</option>
+                  <option>Web Renewal & Update</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="space-y-2">
+                <label
+                  class="text-xs font-bold text-primary-container uppercase tracking-widest"
+                  for="contact-brief">Project Brief</label
+                >
+                <textarea
+                  id="contact-brief"
+                  class="w-full bg-surface-container-low border-b-2 border-outline-variant focus:border-primary-container focus:ring-0 px-4 py-3 transition-all rounded-t-lg"
+                  name="message"
+                  placeholder="Tell us about your vision..."
+                  required
+                  rows="4"
+                ></textarea>
+              </div>
+              <button
+                class="w-full bg-primary-container text-on-primary py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 group hover:bg-primary transition-colors"
+                data-submit-button
+                type="submit"
+              >
+                <span data-submit-label>Initialize Project</span>
+                <span
+                  class="material-symbols-outlined group-hover:translate-x-1 transition-transform"
+                  data-icon="arrow_forward"
+                  >arrow_forward</span
+                >
+              </button>
+              <p class="contact-form-status text-sm font-bold tracking-wide text-primary" data-form-status></p>
+            </form>
+            <!-- Corner Sparkle -->
+            <span
+              class="material-symbols-outlined rounded absolute -bottom-4 -right-4 text-primary-container text-4xl bg-surface-container-lowest p-1"
+              style="font-variation-settings: &quot;FILL&quot; 1"
+              >call</span
+            >
+          </div>
+          <!-- Floating 4-Point Star -->
+          <div class="absolute -bottom-10 -left-10 text-primary-container">
+            <span
+              class="material-symbols-outlined text-6xl"
+              style="font-variation-settings: &quot;FILL&quot; 1"
+              >star_rate</span
+            >
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Footer -->
+    <footer
+      class="relative w-full py-12 bg-blue-50 dark:bg-slate-900 border-t-4 border-blue-700"
+    >
+      <div
+        class="flex flex-col md:flex-row justify-between items-center px-12 gap-8"
+      >
+        <div class="text-xl font-black text-blue-700 dark:text-blue-500">
+          Vlok Production
+        </div>
+        <div class="flex gap-8">
+          <a
+            class="text-slate-500 dark:text-slate-400 opacity-80 hover:opacity-100 transition-opacity hover:text-blue-700 dark:hover:text-blue-400 underline decoration-2"
+            href="#"
+            >Services</a
+          >
+          <a
+            class="text-slate-500 dark:text-slate-400 opacity-80 hover:opacity-100 transition-opacity hover:text-blue-700 dark:hover:text-blue-400 underline decoration-2"
+            href="#"
+            >Case Studies</a
+          >
+          <a
+            class="text-slate-500 dark:text-slate-400 opacity-80 hover:opacity-100 transition-opacity hover:text-blue-700 dark:hover:text-blue-400 underline decoration-2"
+            href="#"
+            >Privacy Policy</a
+          >
+          <a
+            class="text-slate-500 dark:text-slate-400 opacity-80 hover:opacity-100 transition-opacity hover:text-blue-700 dark:hover:text-blue-400 underline decoration-2"
+            href="#"
+            >Terms of Service</a
+          >
+        </div>
+        <div class="text-slate-500 dark:text-slate-400 text-sm font-medium">
+          © 2024 Vlok Production. Built on the Blueprint.
+        </div>
+      </div>
+    </footer>
+    <script>
+      (() => {
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const seen = new Set();
+        const registerTargets = (selector, className, baseDelay) => {
+          document.querySelectorAll(selector).forEach((element, index) => {
+            if (seen.has(element) || element.closest("nav, footer, [data-mobile-nav]")) return;
+            seen.add(element);
+            element.classList.add(className);
+            element.style.setProperty("--reveal-delay", `${(index % 8) * baseDelay}ms`);
+          });
+        };
+
+        registerTargets("header h1, header h2, header h3, header p, main h1, main h2, main h3, main h4, main p, main li, main label", "reveal-text", 55);
+        registerTargets("main form, main .relative.w-full.aspect-square, main .bg-surface-container-lowest, main .flex.items-start.gap-4", "reveal-card", 90);
+
+        const targets = document.querySelectorAll(".reveal-text, .reveal-card");
+        if (!targets.length) return;
+
+        if (reduceMotion || !("IntersectionObserver" in window)) {
+          targets.forEach((element) => element.classList.add("is-visible"));
+          return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          });
+        }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+
+        targets.forEach((element) => observer.observe(element));
+      })();
+
+      (() => {
+        const mobileNav = document.querySelector("[data-mobile-nav]");
+        const openButton = document.querySelector("[data-mobile-nav-open]");
+        const closeButton = document.querySelector("[data-mobile-nav-close]");
+        const navLinks = mobileNav ? mobileNav.querySelectorAll("a") : [];
+
+        if (!mobileNav || !openButton || !closeButton) return;
+
+        const setMenuState = (isOpen) => {
+          mobileNav.classList.toggle("is-open", isOpen);
+          mobileNav.setAttribute("aria-hidden", String(!isOpen));
+          openButton.setAttribute("aria-expanded", String(isOpen));
+          document.body.classList.toggle("mobile-menu-open", isOpen);
+        };
+
+        openButton.addEventListener("click", () => setMenuState(true));
+        closeButton.addEventListener("click", () => setMenuState(false));
+        navLinks.forEach((link) => {
+          link.addEventListener("click", () => setMenuState(false));
+        });
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") setMenuState(false);
+        });
+      })();
+
+      (() => {
+        const form = document.querySelector('[data-web3form="contact"]');
+        const submitBtn = form?.querySelector("[data-submit-button]");
+        const submitLabel = form?.querySelector("[data-submit-label]");
+        const status = form?.querySelector("[data-form-status]");
+
+        if (!form || !submitBtn || !submitLabel || !status) return;
+
+        const originalText = submitLabel.textContent;
+
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          if (!form.reportValidity()) return;
+
+          status.textContent = "";
+          status.classList.remove("is-visible");
+          submitLabel.textContent = "Sending...";
+          submitBtn.disabled = true;
+
+          try {
+            const response = await fetch("https://api.web3forms.com/submit", {
+              method: "POST",
+              body: new FormData(form),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+              status.textContent = "Success! Your message has been sent.";
+              status.classList.add("is-visible");
+              form.reset();
+            } else {
+              status.textContent = `Error: ${data.message || "Unable to send message."}`;
+              status.classList.add("is-visible");
+            }
+          } catch (error) {
+            status.textContent = "Something went wrong. Please try again.";
+            status.classList.add("is-visible");
+          } finally {
+            submitLabel.textContent = originalText;
+            submitBtn.disabled = false;
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

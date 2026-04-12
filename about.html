@@ -1,0 +1,1219 @@
+<!doctype html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>About | Vlok Production</title>
+    <link rel="icon" type="image/png" href="./img/Logog Small.png" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed": "#000f5d",
+              "surface-tint": "#2c4de1",
+              "secondary-fixed-dim": "#bbc3ff",
+              "on-error": "#ffffff",
+              "on-tertiary-fixed-variant": "#8c1800",
+              "tertiary-fixed-dim": "#ffb4a4",
+              "surface-dim": "#d6dae5",
+              "tertiary-container": "#911900",
+              "on-secondary-fixed-variant": "#002ccd",
+              secondary: "#1c3fe7",
+              "on-tertiary-container": "#ffa08b",
+              "on-surface": "#171c23",
+              "outline-variant": "#c4c5d8",
+              "on-background": "#171c23",
+              "primary-container": "#0033cc",
+              surface: "#f8f9ff",
+              "on-primary": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-secondary": "#ffffff",
+              "secondary-fixed": "#dee0ff",
+              "on-error-container": "#93000a",
+              "on-primary-fixed-variant": "#0031c5",
+              "surface-container-lowest": "#ffffff",
+              "inverse-on-surface": "#edf1fc",
+              outline: "#747687",
+              "surface-container-low": "#eff3fe",
+              "primary-fixed": "#dee1ff",
+              error: "#ba1a1a",
+              "tertiary-fixed": "#ffdad3",
+              "inverse-surface": "#2c3139",
+              "surface-container": "#eaeef9",
+              "surface-bright": "#f8f9ff",
+              "surface-container-high": "#e4e8f3",
+              "primary-fixed-dim": "#bac3ff",
+              "surface-container-highest": "#dee2ed",
+              primary: "#002294",
+              background: "#f8f9ff",
+              "on-tertiary": "#ffffff",
+              "surface-variant": "#dee2ed",
+              "on-tertiary-fixed": "#3d0500",
+              "on-primary-container": "#a8b5ff",
+              "inverse-primary": "#bac3ff",
+              "on-surface-variant": "#444655",
+              tertiary: "#680f00",
+              "secondary-container": "#405cff",
+              "on-secondary-container": "#f5f3ff",
+              "on-primary-fixed": "#001159",
+            },
+            borderRadius: {
+              DEFAULT: "1rem",
+              lg: "2rem",
+              xl: "3rem",
+              full: "9999px",
+            },
+            fontFamily: {
+              headline: ["Plus Jakarta Sans"],
+              body: ["Plus Jakarta Sans"],
+              label: ["Plus Jakarta Sans"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #f8f9ff;
+        background-image:
+          linear-gradient(rgba(0, 51, 204, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 51, 204, 0.05) 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .blueprint-dashed {
+        background-image: repeating-linear-gradient(
+          90deg,
+          #0033cc 0px,
+          #0033cc 4px,
+          transparent 4px,
+          transparent 10px
+        );
+      }
+      .mobile-nav {
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 1.5rem;
+        background:
+          radial-gradient(
+            circle at top right,
+            rgba(186, 195, 255, 0.55),
+            transparent 28%
+          ),
+          linear-gradient(
+            180deg,
+            rgba(248, 249, 255, 0.98),
+            rgba(239, 243, 254, 0.98)
+          );
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(-100%);
+        transition:
+          opacity 260ms ease,
+          transform 360ms cubic-bezier(0.22, 1, 0.36, 1),
+          visibility 0s linear 360ms;
+      }
+      .mobile-nav.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
+        transition:
+          opacity 260ms ease,
+          transform 360ms cubic-bezier(0.22, 1, 0.36, 1),
+          visibility 0s linear 0s;
+      }
+      .mobile-nav-link {
+        opacity: 0;
+        transform: translateY(18px);
+        transition:
+          opacity 280ms ease,
+          transform 280ms ease,
+          color 200ms ease;
+      }
+      .mobile-nav.is-open .mobile-nav-link {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .mobile-nav.is-open .mobile-nav-link:nth-child(1) {
+        transition-delay: 70ms;
+      }
+      .mobile-nav.is-open .mobile-nav-link:nth-child(2) {
+        transition-delay: 130ms;
+      }
+      .mobile-nav.is-open .mobile-nav-link:nth-child(3) {
+        transition-delay: 190ms;
+      }
+      .mobile-nav.is-open .mobile-nav-link:nth-child(4) {
+        transition-delay: 250ms;
+      }
+      .mobile-nav.is-open .mobile-nav-link:nth-child(5) {
+        transition-delay: 310ms;
+      }
+      body.mobile-menu-open {
+        overflow: hidden;
+      }
+      .about-page-trace {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.5;
+      }
+      .about-page-trace svg {
+        width: 100%;
+        height: 100%;
+      }
+      .about-page-trace path {
+        fill: none;
+        stroke: rgba(44, 77, 225, 0.42);
+        stroke-width: 90;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+        stroke-dasharray: 1800;
+        stroke-dashoffset: 1800;
+        animation: about-trace-draw 9s ease-in-out infinite alternate;
+      }
+      @keyframes about-trace-draw {
+        0% {
+          stroke-dashoffset: 1800;
+          opacity: 0.16;
+        }
+        20% {
+          opacity: 0.42;
+        }
+        100% {
+          stroke-dashoffset: 0;
+          opacity: 0.58;
+        }
+      }
+      .process-step {
+        cursor: pointer;
+      }
+      .process-step-details {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(8px);
+        transition:
+          max-height 320ms ease,
+          opacity 220ms ease,
+          transform 220ms ease,
+          margin-top 220ms ease;
+      }
+      .process-step.is-open {
+        background-color: #002294;
+        color: #ffffff;
+      }
+      .process-step-toggle {
+        transition:
+          transform 220ms ease,
+          color 220ms ease,
+          opacity 220ms ease;
+      }
+      .process-step.is-open .process-step-icon,
+      .process-step.is-open .process-step-copy,
+      .process-step.is-open .process-step-toggle {
+        color: rgba(255, 255, 255, 0.88);
+      }
+      .process-step.is-open .process-step-toggle {
+        transform: rotate(180deg);
+      }
+      .process-step.is-open .process-step-details {
+        max-height: 220px;
+        opacity: 1;
+        transform: translateY(0);
+        margin-top: 1rem;
+      }
+      .process-step-bullet {
+        position: relative;
+        padding-left: 1rem;
+      }
+      .process-step-bullet::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.55rem;
+        width: 0.38rem;
+        height: 0.38rem;
+        border-radius: 9999px;
+        background: currentColor;
+      }
+      .about-flower {
+        position: absolute;
+        top: 1.5rem;
+        right: 1rem;
+        width: 74px;
+        height: 74px;
+        opacity: 0.8;
+        pointer-events: none;
+      }
+      .about-flower-rays {
+        animation: about-flower-spin 12s linear infinite;
+        transform-origin: center;
+      }
+      .about-flower-ray {
+        fill: #405cff;
+        opacity: 0.8;
+      }
+      .about-flower-ring {
+        fill: #002294;
+      }
+      .about-flower-core {
+        fill: #bac3ff;
+      }
+      .tech-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border-radius: 9999px;
+        background: #dee1ff;
+        padding: 0.45rem 0.8rem;
+        color: #002294;
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .tech-badge-mark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.35rem;
+        height: 1.35rem;
+        border-radius: 9999px;
+        background: #ffffff;
+        color: #2c4de1;
+        font-size: 0.68rem;
+        font-weight: 900;
+        line-height: 1;
+        box-shadow: inset 0 0 0 1px rgba(0, 34, 148, 0.08);
+      }
+      @keyframes about-flower-spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @media (max-width: 767px) {
+        .about-flower {
+          top: -0.25rem;
+          right: 0.25rem;
+          width: 58px;
+          height: 58px;
+          opacity: 0.6;
+        }
+      }
+      .reveal-text,
+      .reveal-card {
+        opacity: 0;
+        will-change: transform, opacity, filter;
+        transition:
+          opacity 680ms ease,
+          transform 680ms cubic-bezier(0.22, 1, 0.36, 1),
+          filter 680ms ease;
+        transition-delay: var(--reveal-delay, 0ms);
+      }
+      .reveal-text {
+        transform: translateY(26px);
+        filter: blur(8px);
+      }
+      .reveal-card {
+        transform: translateY(34px) scale(0.985);
+        filter: blur(12px);
+      }
+      .reveal-text.is-visible,
+      .reveal-card.is-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .reveal-text,
+        .reveal-card {
+          opacity: 1;
+          transform: none;
+          filter: none;
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="text-on-surface antialiased overflow-x-hidden">
+    <!-- TopNavBar -->
+    <nav
+      class="fixed top-0 w-full z-50 rounded-b-2xl bg-blue-50/15 backdrop-blur-xl border-b-2 border-blue-700/10 shadow-[0_10px_40px_-15px_rgba(0,51,204,0.06)]"
+    >
+      <div
+        class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto"
+      >
+        <div
+          class="text-2xl font-black text-blue-700 tracking-tighter"
+        >
+          Vlok Production
+        </div>
+        <div class="hidden md:flex gap-8 items-center">
+          <a
+            class="text-slate-600 font-medium text-xs uppercase tracking-widest hover:text-blue-600 transition-colors duration-300"
+            href="index.html"
+            >Home</a
+          >
+          <a
+            class="text-blue-700 font-bold border-b-2 border-blue-700 text-xs uppercase tracking-widest transition-colors duration-300"
+            href="about.html"
+            >About</a
+          >
+          <a
+            class="text-slate-600 font-medium text-xs uppercase tracking-widest hover:text-blue-600 transition-colors duration-300"
+            href="projects.html"
+            >Our Work</a
+          >
+          <a
+            class="text-slate-600 font-medium text-xs uppercase tracking-widest hover:text-blue-600 transition-colors duration-300"
+            href="pricing.html"
+            >Pricing</a
+          >
+          <a
+            class="text-slate-600 font-medium text-xs uppercase tracking-widest hover:text-blue-600 transition-colors duration-300"
+            href="contact.html"
+            >Contact</a
+          >
+        </div>
+        <button
+          class="hidden md:inline-flex bg-primary-container text-on-primary px-6 py-2.5 rounded-full font-bold scale-95 active:scale-90 transition-transform shadow-lg shadow-blue-700/20"
+        >
+          Get Started
+        </button>
+        <button
+          aria-controls="mobile-nav"
+          aria-expanded="false"
+          aria-label="Open navigation menu"
+          class="md:hidden inline-flex h-12 w-12 items-center justify-center rounded-full border-2 border-primary/15 bg-white/80 text-primary shadow-lg shadow-blue-700/10 backdrop-blur"
+          data-mobile-nav-open
+          type="button"
+        >
+          <span class="material-symbols-outlined" data-icon="menu">menu</span>
+        </button>
+      </div>
+    </nav>
+    <div
+      aria-hidden="true"
+      class="mobile-nav md:hidden"
+      data-mobile-nav
+      id="mobile-nav"
+    >
+      <div class="flex items-center justify-between">
+        <div class="text-2xl font-black text-blue-700 tracking-tighter">
+          Vlok Production
+        </div>
+        <button
+          aria-label="Close navigation menu"
+          class="inline-flex h-12 w-12 items-center justify-center rounded-full border-2 border-primary/15 bg-white text-primary shadow-lg shadow-blue-700/10"
+          data-mobile-nav-close
+          type="button"
+        >
+          <span class="material-symbols-outlined" data-icon="close">close</span>
+        </button>
+      </div>
+      <div class="flex flex-1 flex-col justify-center gap-5">
+        <a
+          class="mobile-nav-link text-4xl font-black tracking-tight text-on-surface hover:text-primary"
+          href="index.html"
+          >Home</a
+        >
+        <a
+          class="mobile-nav-link text-4xl font-black tracking-tight text-primary"
+          href="about.html"
+          >About</a
+        >
+        <a
+          class="mobile-nav-link text-4xl font-black tracking-tight text-on-surface hover:text-primary"
+          href="projects.html"
+          >Our Work</a
+        >
+        <a
+          class="mobile-nav-link text-4xl font-black tracking-tight text-on-surface hover:text-primary"
+          href="pricing.html"
+          >Pricing</a
+        >
+        <a
+          class="mobile-nav-link text-4xl font-black tracking-tight text-on-surface hover:text-primary"
+          href="contact.html"
+          >Contact</a
+        >
+      </div>
+      <div class="flex items-center justify-between gap-4">
+        <p
+          class="max-w-[12rem] text-sm font-medium leading-relaxed text-on-surface-variant"
+        >
+          Bold interfaces, precise builds, and full-scale digital execution.
+        </p>
+        <a
+          class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-bold text-white shadow-lg shadow-blue-700/20"
+          href="contact.html"
+          >Get Started</a
+        >
+      </div>
+    </div>
+    <div class="about-page-trace" aria-hidden="true">
+      <svg preserveAspectRatio="none" viewBox="0 0 1440 2200" xmlns="http://www.w3.org/2000/svg">
+        <path d="M-120 240 C 110 140, 240 380, 420 300 S 760 120, 930 280 S 1220 470, 1360 360 S 1490 410, 1500 620 C 1510 840, 1180 770, 1060 930 S 930 1260, 1110 1360 S 1400 1560, 1260 1700 S 880 1780, 760 1620 S 480 1360, 300 1480 S 40 1880, -80 1760" />
+      </svg>
+    </div>
+    <main class="relative z-10 pt-32 pb-20">
+      <!-- Hero / Mission Section -->
+      <section class="max-w-7xl mx-auto px-8 mb-32 relative">
+        <div class="about-flower" aria-hidden="true">
+          <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+            <g class="about-flower-rays">
+              <rect
+                class="about-flower-ray"
+                height="28"
+                rx="6"
+                width="10"
+                x="55"
+                y="6"
+              />
+              <rect
+                class="about-flower-ray"
+                height="28"
+                rx="6"
+                transform="rotate(45 60 60)"
+                width="10"
+                x="55"
+                y="6"
+              />
+              <rect
+                class="about-flower-ray"
+                height="28"
+                rx="6"
+                transform="rotate(90 60 60)"
+                width="10"
+                x="55"
+                y="6"
+              />
+              <rect
+                class="about-flower-ray"
+                height="28"
+                rx="6"
+                transform="rotate(135 60 60)"
+                width="10"
+                x="55"
+                y="6"
+              />
+              <rect
+                class="about-flower-ray"
+                height="28"
+                rx="6"
+                transform="rotate(180 60 60)"
+                width="10"
+                x="55"
+                y="6"
+              />
+              <rect
+                class="about-flower-ray"
+                height="28"
+                rx="6"
+                transform="rotate(225 60 60)"
+                width="10"
+                x="55"
+                y="6"
+              />
+              <rect
+                class="about-flower-ray"
+                height="28"
+                rx="6"
+                transform="rotate(270 60 60)"
+                width="10"
+                x="55"
+                y="6"
+              />
+              <rect
+                class="about-flower-ray"
+                height="28"
+                rx="6"
+                transform="rotate(315 60 60)"
+                width="10"
+                x="55"
+                y="6"
+              />
+            </g>
+            <circle class="about-flower-ring" cx="60" cy="60" r="22" />
+            <circle class="about-flower-core" cx="60" cy="60" r="11" />
+          </svg>
+        </div>
+        <div
+          class="absolute top-0 right-0 -mr-20 -mt-10 opacity-20 hidden lg:block"
+        >
+          <svg
+            class="text-primary-container fill-current"
+            height="400"
+            viewbox="0 0 100 100"
+            width="400"
+          >
+            <path
+              d="M10,50 Q25,25 50,50 T90,50"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="0.5"
+            ></path>
+            <path
+              d="M10,60 Q25,35 50,60 T90,60"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="0.5"
+            ></path>
+          </svg>
+        </div>
+        <div class="flex flex-col items-start gap-6 max-w-4xl">
+          <span
+            class="text-xs font-bold uppercase tracking-widest text-primary-container bg-primary-container/10 px-4 py-1.5 rounded-full border border-primary-container/20"
+            >Our Mission</span
+          >
+          <h1
+            class="text-6xl md:text-8xl font-extrabold text-primary tracking-tighter leading-none"
+          >
+            Engineering
+            <span class="text-secondary-container">Creative</span> Brilliance.
+          </h1>
+          <p
+            class="text-xl md:text-2xl text-on-surface-variant font-medium leading-relaxed max-w-2xl mt-4"
+          >
+            We bridge the gap between you and your imagination trough
+            technology. Our mission is to build digital products that aren't
+            just functional, but architecturally sound and visually captivating.
+          </p>
+          <div class="mt-8 grid w-full max-w-4xl gap-4 md:grid-cols-2">
+            <div
+              class="p-6 bg-surface-container-lowest border-2 border-primary rounded-lg relative overflow-hidden shadow-[10px_10px_0px_rgba(0,51,204,1)]"
+            >
+              <span
+                class="material-symbols-outlined text-4xl text-primary mb-4"
+                data-icon="architecture"
+                >architecture</span
+              >
+              <h3 class="font-bold text-xl text-primary mb-2">
+                Technical Rigor
+              </h3>
+              <p class="text-on-surface-variant">
+                Code written with the precision of a blueprint.
+              </p>
+            </div>
+            <div
+              class="p-6 bg-surface-container-lowest border-2 border-primary rounded-lg relative overflow-hidden shadow-[10px_10px_0px_rgba(64,92,255,1)]"
+            >
+              <span
+                class="material-symbols-outlined text-4xl text-secondary-container mb-4"
+                data-icon="auto_awesome"
+                >auto_awesome</span
+              >
+              <h3 class="font-bold text-xl text-primary mb-2">
+                Creative Energy
+              </h3>
+              <p class="text-on-surface-variant">
+                Design that breaks the grid while respecting it.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Our Process (Blueprint Flow) -->
+      <section class="mb-32" id="process-section">
+        <div class="max-w-7xl mx-auto px-8">
+          <div class="flex items-end justify-between mb-16">
+            <div>
+              <span
+                class="text-xs font-bold uppercase tracking-widest text-primary-container"
+                >The Framework</span
+              >
+              <h2
+                class="text-4xl md:text-5xl font-black text-primary tracking-tight"
+              >
+                Our Process
+              </h2>
+            </div>
+            <div class="hidden md:block">
+              <span
+                class="material-symbols-outlined text-6xl text-primary/20"
+                data-icon="drafting_compass"
+                >compass_calibration</span
+              >
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-4 relative">
+            <!-- Step 1 -->
+            <div
+              class="process-step group relative p-8 bg-surface-container-low border-b-4 border-primary rounded-lg transition-all hover:bg-primary hover:text-white"
+              data-process-step
+            >
+              <div
+                class="absolute top-0 right-0 p-4 font-black text-4xl opacity-10 group-hover:opacity-30"
+              >
+                01
+              </div>
+              <span
+                class="process-step-icon material-symbols-outlined text-4xl mb-6 text-primary group-hover:text-white"
+                data-icon="search"
+                >search</span
+              >
+              <h4 class="text-xl font-bold mb-3 uppercase tracking-tighter">
+                Research
+              </h4>
+              <p
+                class="process-step-copy text-on-surface-variant group-hover:text-white/80 text-sm"
+              >
+                Deep diving into technical requirements and market landscapes.
+              </p>
+              <div
+                class="mt-5 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-primary/60 group-hover:text-white/80"
+              >
+                View Details
+                <span
+                  class="process-step-toggle material-symbols-outlined text-base"
+                  data-icon="keyboard_arrow_down"
+                  >keyboard_arrow_down</span
+                >
+              </div>
+              <div class="process-step-details text-sm text-white/80">
+                <p class="process-step-bullet">
+                  Research methodologies and stakeholder interviews.
+                </p>
+                <p class="process-step-bullet">
+                  Competition analysis and market positioning review.
+                </p>
+                <p class="process-step-bullet">
+                  Expectation mapping, priorities, and planning scope.
+                </p>
+                <p class="process-step-bullet">
+                  Technical feasibility and delivery roadmap alignment.
+                </p>
+              </div>
+            </div>
+            <!-- Step 2 -->
+            <div
+              class="process-step group relative p-8 bg-surface-container-low border-b-4 border-primary rounded-lg transition-all hover:bg-primary hover:text-white"
+              data-process-step
+            >
+              <div
+                class="absolute top-0 right-0 p-4 font-black text-4xl opacity-10 group-hover:opacity-30"
+              >
+                02
+              </div>
+              <span
+                class="process-step-icon material-symbols-outlined text-4xl mb-6 text-primary group-hover:text-white"
+                data-icon="palette"
+                >palette</span
+              >
+              <h4 class="text-xl font-bold mb-3 uppercase tracking-tighter">
+                Design
+              </h4>
+              <p
+                class="process-step-copy text-on-surface-variant group-hover:text-white/80 text-sm"
+              >
+                Drafting visual systems that align with the brand DNA.
+              </p>
+              <div
+                class="mt-5 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-primary/60 group-hover:text-white/80"
+              >
+                View Details
+                <span
+                  class="process-step-toggle material-symbols-outlined text-base"
+                  data-icon="keyboard_arrow_down"
+                  >keyboard_arrow_down</span
+                >
+              </div>
+              <div class="process-step-details text-sm text-white/80">
+                <p class="process-step-bullet">
+                  Wireframes, brand direction, and visual hierarchy.
+                </p>
+                <p class="process-step-bullet">
+                  UI systems, interaction planning, and responsive layouts.
+                </p>
+                <p class="process-step-bullet">
+                  Design validation before development starts.
+                </p>
+                <p class="process-step-bullet">
+                  Content structure and user journey refinement.
+                </p>
+              </div>
+            </div>
+            <!-- Step 3 -->
+            <div
+              class="process-step group relative p-8 bg-surface-container-low border-b-4 border-primary rounded-lg transition-all hover:bg-primary hover:text-white"
+              data-process-step
+            >
+              <div
+                class="absolute top-0 right-0 p-4 font-black text-4xl opacity-10 group-hover:opacity-30"
+              >
+                03
+              </div>
+              <span
+                class="process-step-icon material-symbols-outlined text-4xl mb-6 text-primary group-hover:text-white"
+                data-icon="code"
+                >code</span
+              >
+              <h4 class="text-xl font-bold mb-3 uppercase tracking-tighter">
+                Build
+              </h4>
+              <p
+                class="process-step-copy text-on-surface-variant group-hover:text-white/80 text-sm"
+              >
+                Precision engineering using the latest tech stack standards.
+              </p>
+              <div
+                class="mt-5 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-primary/60 group-hover:text-white/80"
+              >
+                View Details
+                <span
+                  class="process-step-toggle material-symbols-outlined text-base"
+                  data-icon="keyboard_arrow_down"
+                  >keyboard_arrow_down</span
+                >
+              </div>
+              <div class="process-step-details text-sm text-white/80">
+                <p class="process-step-bullet">
+                  Component development and system architecture.
+                </p>
+                <p class="process-step-bullet">
+                  CMS, backend integrations, and quality assurance.
+                </p>
+                <p class="process-step-bullet">
+                  Performance, accessibility, and responsive testing.
+                </p>
+                <p class="process-step-bullet">
+                  Clean handoff structure for long-term maintainability.
+                </p>
+              </div>
+            </div>
+            <!-- Step 4 -->
+            <div
+              class="process-step group relative p-8 bg-surface-container-low border-b-4 border-primary rounded-lg transition-all hover:bg-primary hover:text-white"
+              data-process-step
+            >
+              <div
+                class="absolute top-0 right-0 p-4 font-black text-4xl opacity-10 group-hover:opacity-30"
+              >
+                04
+              </div>
+              <span
+                class="process-step-icon material-symbols-outlined text-4xl mb-6 text-primary group-hover:text-white"
+                data-icon="rocket_launch"
+                >rocket_launch</span
+              >
+              <h4 class="text-xl font-bold mb-3 uppercase tracking-tighter">
+                Launch
+              </h4>
+              <p
+                class="process-step-copy text-on-surface-variant group-hover:text-white/80 text-sm"
+              >
+                Deploying scalable architectures for the global stage.
+              </p>
+              <div
+                class="mt-5 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-primary/60 group-hover:text-white/80"
+              >
+                View Details
+                <span
+                  class="process-step-toggle material-symbols-outlined text-base"
+                  data-icon="keyboard_arrow_down"
+                  >keyboard_arrow_down</span
+                >
+              </div>
+              <div class="process-step-details text-sm text-white/80">
+                <p class="process-step-bullet">
+                  Hosting setup, production deployment, and final review.
+                </p>
+                <p class="process-step-bullet">
+                  Domain, analytics, and launch-readiness checks.
+                </p>
+                <p class="process-step-bullet">
+                  Smooth go-live with rollout support.
+                </p>
+                <p class="process-step-bullet">
+                  Post-launch validation and stakeholder walkthroughs.
+                </p>
+              </div>
+            </div>
+            <!-- Step 5 -->
+            <div
+              class="process-step group relative p-8 bg-surface-container-low border-b-4 border-primary rounded-lg transition-all hover:bg-primary hover:text-white"
+              data-process-step
+            >
+              <div
+                class="absolute top-0 right-0 p-4 font-black text-4xl opacity-10 group-hover:opacity-30"
+              >
+                05
+              </div>
+              <span
+                class="process-step-icon material-symbols-outlined text-4xl mb-6 text-primary group-hover:text-white"
+                data-icon="settings"
+                >settings</span
+              >
+              <h4 class="text-xl font-bold mb-3 uppercase tracking-tighter">
+                Maintain
+              </h4>
+              <p
+                class="process-step-copy text-on-surface-variant group-hover:text-white/80 text-sm"
+              >
+                Monitoring, refining, and supporting every system after go-live.
+              </p>
+              <div
+                class="mt-5 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-primary/60 group-hover:text-white/80"
+              >
+                View Details
+                <span
+                  class="process-step-toggle material-symbols-outlined text-base"
+                  data-icon="keyboard_arrow_down"
+                  >keyboard_arrow_down</span
+                >
+              </div>
+              <div class="process-step-details text-sm text-white/80">
+                <p class="process-step-bullet">
+                  Updates, fixes, and iterative improvements.
+                </p>
+                <p class="process-step-bullet">
+                  Monitoring performance, SEO, and reliability.
+                </p>
+                <p class="process-step-bullet">
+                  Ongoing support aligned with growth goals.
+                </p>
+                <p class="process-step-bullet">
+                  Optimization cycles informed by analytics and feedback.
+                </p>
+              </div>
+            </div>
+            <!-- Connector Line for Visual Desktop Only -->
+            <div
+              class="hidden md:block absolute top-1/2 left-0 w-full h-px border-t-2 border-dashed border-primary/20 -z-10 translate-y-[-50%]"
+            ></div>
+          </div>
+        </div>
+      </section>
+      <!-- Our Tech Stack Section -->
+      <section class="mb-32" id="tech-stack-section">
+        <div class="max-w-7xl mx-auto px-8">
+          <div
+            class="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-16"
+          >
+            <div class="max-w-2xl">
+              <span
+                class="text-xs font-bold uppercase tracking-widest text-primary-container"
+                >Technical Capabilities</span
+              >
+              <h2
+                class="text-4xl md:text-5xl font-black text-primary tracking-tight mt-3"
+              >
+                Our Tech Stack
+              </h2>
+              <p
+                class="text-on-surface-variant text-lg font-medium mt-5 leading-relaxed"
+              >
+                We build with a modern, production-ready stack designed for
+                speed, flexibility, and long-term maintainability across web,
+                content, and growth systems.
+              </p>
+            </div>
+            <div
+              class="rounded-full border-2 border-primary/10 bg-surface-container-low px-5 py-3 text-sm font-bold uppercase tracking-[0.2em] text-primary"
+            >
+              Frontend to Launch
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+            <div
+              class="bg-surface-container-lowest border-2 border-primary/10 rounded-2xl p-8 shadow-[8px_8px_0px_rgba(0,34,148,0.08)]"
+            >
+              <span
+                class="material-symbols-outlined text-4xl text-primary mb-5"
+                data-icon="web"
+                >web</span
+              >
+              <h3 class="text-2xl font-black text-primary mb-4">Frontend</h3>
+              <p class="text-on-surface-variant leading-relaxed">
+                Responsive interfaces built with Tailwind, React, Spring
+                and animation systems tuned for modern browsing.
+              </p>
+              <div class="mt-6 flex flex-wrap gap-2">
+                <span class="tech-badge"><span class="tech-badge-mark">H</span>HTML5</span>
+                <span class="tech-badge"><span class="tech-badge-mark">R</span>React</span>
+                <span class="tech-badge"><span class="tech-badge-mark">T</span>Tailwind</span>
+                <span class="tech-badge"><span class="tech-badge-mark">JS</span>JavaScript</span>
+              </div>
+            </div>
+            <div
+              class="bg-surface-container-lowest border-2 border-primary/10 rounded-2xl p-8 shadow-[8px_8px_0px_rgba(64,92,255,0.08)]"
+            >
+              <span
+                class="material-symbols-outlined text-4xl text-primary mb-5"
+                data-icon="dns"
+                >dns</span
+              >
+              <h3 class="text-2xl font-black text-primary mb-4">Backend</h3>
+              <p class="text-on-surface-variant leading-relaxed">
+                APIs, databases, authentication, and scalable integrations that
+                support real-world business operations. Mainly utilizing MERN stack
+              </p>
+              <div class="mt-6 flex flex-wrap gap-2">
+                <span class="tech-badge"><span class="tech-badge-mark">N</span>Node.js</span>
+                <span class="tech-badge"><span class="tech-badge-mark">E</span>Express</span>
+                <span class="tech-badge"><span class="tech-badge-mark">M</span>MongoDB</span>
+                <span class="tech-badge"><span class="tech-badge-mark">API</span>REST APIs</span>
+              </div>
+            </div>
+            <div
+              class="bg-surface-container-lowest border-2 border-primary/10 rounded-2xl p-8 shadow-[8px_8px_0px_rgba(0,34,148,0.08)]"
+            >
+              <span
+                class="material-symbols-outlined text-4xl text-primary mb-5"
+                data-icon="edit_square"
+                >edit_square</span
+              >
+              <h3 class="text-2xl font-black text-primary mb-4">
+                CMS & Content
+              </h3>
+              <p class="text-on-surface-variant leading-relaxed">
+                Content workflows, editable systems, and structured publishing
+                setups that help teams manage updates with confidence.
+              </p>
+              <div class="mt-6 flex flex-wrap gap-2">
+                <span class="tech-badge"><span class="tech-badge-mark">W</span>WordPress</span>
+                <span class="tech-badge"><span class="tech-badge-mark">S</span>Sanity</span>
+                <span class="tech-badge"><span class="tech-badge-mark">C</span>Contentful</span>
+                <span class="tech-badge"><span class="tech-badge-mark">N</span>Netlify</span>
+              </div>
+            </div>
+            <div
+              class="bg-surface-container-lowest border-2 border-primary/10 rounded-2xl p-8 shadow-[8px_8px_0px_rgba(64,92,255,0.08)]"
+            >
+              <span
+                class="material-symbols-outlined text-4xl text-primary mb-5"
+                data-icon="monitoring"
+                >monitoring</span
+              >
+              <h3 class="text-2xl font-black text-primary mb-4">Performance</h3>
+              <p class="text-on-surface-variant leading-relaxed">
+                Optimization, analytics, SEO readiness, and ongoing maintenance
+                designed to keep products fast and measurable.
+              </p>
+              <div class="mt-6 flex flex-wrap gap-2">
+                <span class="tech-badge"><span class="tech-badge-mark">G</span>Google Analytics</span>
+                <span class="tech-badge"><span class="tech-badge-mark">G4</span>GA4</span>
+                <span class="tech-badge"><span class="tech-badge-mark">SC</span>Search Console</span>
+                <span class="tech-badge"><span class="tech-badge-mark">CW</span>Core Web Vitals</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-10 flex justify-center">
+            <a
+              class="inline-flex items-center gap-2 justify-center rounded-full border-2 border-primary/15 bg-white/80 px-8 py-3 text-sm font-bold text-primary shadow-[0_12px_30px_-18px_rgba(0,34,148,0.35)] transition-all hover:-translate-y-1 hover:border-primary hover:bg-primary hover:text-white"
+              href="contact.html"
+              >Contact an Expert
+              <span
+                class="material-symbols-outlined text-base"
+                data-icon="arrow_forward"
+                >arrow_forward</span
+              ></a
+            >
+          </div>
+        </div>
+      </section>
+      <!-- The Team Section -->
+      <section class="max-w-7xl mx-auto px-8">
+        <div class="mb-16 flex flex-col items-center text-center">
+          <span
+            class="text-xs font-bold uppercase tracking-widest text-primary-container"
+            >The Minds Behind</span
+          >
+          <h2
+            class="text-4xl md:text-5xl font-black text-primary tracking-tight"
+          >
+            Our Specialists
+          </h2>
+          <div class="flex justify-center mt-4">
+            <div class="w-16 h-1.5 bg-primary rounded-full"></div>
+          </div>
+        </div>
+        <div class="flex flex-wrap justify-center gap-12">
+          <!-- Team Member 1 -->
+          <div class="flex flex-col items-center group">
+            <div
+              class="w-48 h-48 rounded-full border-4 border-primary p-2 relative mb-6 transition-transform group-hover:rotate-3"
+            >
+              <div
+                class="w-full h-full rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden"
+              >
+                <img
+                  alt="Team Member"
+                  class="w-full h-full object-cover"
+                  data-alt="minimalist professional portrait of a man in a creative studio setting with soft blue lighting and technical overlays"
+                  src="./img/man_17051716.png"
+                />
+              </div>
+              <div
+                class="absolute -bottom-2 -right-2 bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center border-4 border-surface shadow-lg"
+              >
+                <span class="text-xl font-bold">+</span>
+              </div>
+            </div>
+            <h4 class="text-2xl font-black text-primary tracking-tight">
+              Vishwa Aloka
+            </h4>
+            <span
+              class="text-xs font-bold uppercase tracking-widest text-secondary mt-1"
+              >Founder &amp; Lead Architect</span
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- Footer -->
+    <footer
+      class="bg-blue-50 dark:bg-slate-950 relative w-full py-12 border-t-4 border-blue-700"
+    >
+      <div
+        class="flex flex-col md:flex-row justify-between items-center px-12 gap-8 max-w-full mx-auto"
+      >
+        <div class="text-xl font-black text-blue-700 dark:text-blue-500">
+          Vlok Production
+        </div>
+        <div class="flex gap-8">
+          <a
+            class="text-slate-500 dark:text-slate-400 font-medium hover:text-blue-700 underline decoration-2 transition-opacity opacity-80 hover:opacity-100"
+            href="#"
+            >Services</a
+          >
+          <a
+            class="text-slate-500 dark:text-slate-400 font-medium hover:text-blue-700 underline decoration-2 transition-opacity opacity-80 hover:opacity-100"
+            href="#"
+            >Case Studies</a
+          >
+          <a
+            class="text-slate-500 dark:text-slate-400 font-medium hover:text-blue-700 underline decoration-2 transition-opacity opacity-80 hover:opacity-100"
+            href="#"
+            >Privacy Policy</a
+          >
+          <a
+            class="text-slate-500 dark:text-slate-400 font-medium hover:text-blue-700 underline decoration-2 transition-opacity opacity-80 hover:opacity-100"
+            href="#"
+            >Terms of Service</a
+          >
+        </div>
+        <div class="text-slate-500 dark:text-slate-400 text-sm font-medium">
+          © 2024 Vlok Production. Built on the Blueprint.
+        </div>
+      </div>
+      <!-- Corner Plus Accents -->
+      <div class="absolute top-4 left-4 text-primary opacity-20">
+        <span class="material-symbols-outlined" data-icon="add">add</span>
+      </div>
+      <div class="absolute bottom-4 right-4 text-primary opacity-20">
+        <span class="material-symbols-outlined" data-icon="add">add</span>
+      </div>
+    </footer>
+    <script>
+      (() => {
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const seen = new Set();
+        const registerTargets = (selector, className, baseDelay) => {
+          document.querySelectorAll(selector).forEach((element, index) => {
+            if (seen.has(element) || element.closest("nav, footer, [data-mobile-nav]")) return;
+            seen.add(element);
+            element.classList.add(className);
+            element.style.setProperty("--reveal-delay", `${(index % 8) * baseDelay}ms`);
+          });
+        };
+
+        registerTargets("header h1, header h2, header h3, header p, main h1, main h2, main h3, main h4, main p, main li, main label", "reveal-text", 55);
+        registerTargets("main .group, main .about-value-card, main .about-team-card, main section > div.bg-surface-container-lowest, main section > div.bg-primary", "reveal-card", 90);
+
+        const targets = document.querySelectorAll(".reveal-text, .reveal-card");
+        if (!targets.length) return;
+
+        if (reduceMotion || !("IntersectionObserver" in window)) {
+          targets.forEach((element) => element.classList.add("is-visible"));
+          return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          });
+        }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+
+        targets.forEach((element) => observer.observe(element));
+      })();
+
+      (() => {
+        const mobileNav = document.querySelector("[data-mobile-nav]");
+        const openButton = document.querySelector("[data-mobile-nav-open]");
+        const closeButton = document.querySelector("[data-mobile-nav-close]");
+        const navLinks = mobileNav ? mobileNav.querySelectorAll("a") : [];
+
+        if (!mobileNav || !openButton || !closeButton) return;
+
+        const setMenuState = (isOpen) => {
+          mobileNav.classList.toggle("is-open", isOpen);
+          mobileNav.setAttribute("aria-hidden", String(!isOpen));
+          openButton.setAttribute("aria-expanded", String(isOpen));
+          document.body.classList.toggle("mobile-menu-open", isOpen);
+        };
+
+        openButton.addEventListener("click", () => setMenuState(true));
+        closeButton.addEventListener("click", () => setMenuState(false));
+        navLinks.forEach((link) => {
+          link.addEventListener("click", () => setMenuState(false));
+        });
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") setMenuState(false);
+        });
+      })();
+
+      (() => {
+        const processSteps = document.querySelectorAll("[data-process-step]");
+        if (!processSteps.length) return;
+
+        processSteps.forEach((step, index) => {
+          step.addEventListener("click", () => {
+            const isOpen = step.classList.contains("is-open");
+            processSteps.forEach((item) => item.classList.remove("is-open"));
+            if (!isOpen) {
+              step.classList.add("is-open");
+            }
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

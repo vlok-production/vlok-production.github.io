@@ -1,1127 +1,1401 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VlokProduction — Web & SaaS Solutions</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --ink: #0a0a0f;
-      --paper: #f5f2eb;
-      --accent: #ff3c2f;
-      --accent2: #1a1aff;
-      --mid: #c8c4b8;
-      --soft: #e8e4dc;
-    }
+<!doctype html>
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--ink);
-      color: var(--paper);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      line-height: 1.6;
-      overflow-x: hidden;
-      cursor: none;
-    }
-
-    /* Custom cursor */
-    #cursor {
-      position: fixed; top: 0; left: 0;
-      width: 14px; height: 14px;
-      background: var(--accent);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
-      mix-blend-mode: difference;
-    }
-    #cursor.expand {
-      width: 48px; height: 48px;
-      background: var(--paper);
-    }
-
-    /* Noise overlay */
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 9000;
-      opacity: 0.5;
-    }
-
-    /* NAV */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.4rem 3rem;
-      mix-blend-mode: difference;
-    }
-    .nav-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.6rem;
-      letter-spacing: 0.08em;
-      color: var(--paper);
-      text-decoration: none;
-    }
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links a {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--paper);
-      text-decoration: none;
-      opacity: 0.7;
-      transition: opacity 0.2s;
-    }
-    .nav-links a:hover { opacity: 1; }
-
-    /* HERO */
-    #hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: end;
-      gap: 4rem;
-      padding: 8rem 3rem 5rem;
-      position: relative;
-      border-bottom: 1px solid rgba(245,242,235,0.12);
-    }
-    .hero-left { align-self: end; }
-    .hero-tag {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1.4rem;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.2s forwards;
-    }
-    .hero-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(5rem, 10vw, 10rem);
-      line-height: 0.92;
-      letter-spacing: -0.01em;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.4s forwards;
-    }
-    .hero-title span { color: var(--accent); }
-    .hero-sub {
-      margin-top: 2rem;
-      font-size: 1.05rem;
-      font-weight: 300;
-      color: var(--mid);
-      max-width: 480px;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.6s forwards;
-    }
-    .hero-cta {
-      margin-top: 3rem;
-      display: flex; gap: 1rem; flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.8s forwards;
-    }
-    .btn {
-      display: inline-block;
-      padding: 0.9rem 2.2rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: all 0.25s;
-      cursor: none;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: var(--paper);
-      border: 2px solid var(--accent);
-    }
-    .btn-primary:hover { background: transparent; color: var(--accent); }
-    .btn-ghost {
-      background: transparent;
-      color: var(--paper);
-      border: 2px solid rgba(245,242,235,0.3);
-    }
-    .btn-ghost:hover { border-color: var(--paper); }
-
-    .hero-right {
-      align-self: stretch;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding-bottom: 0.5rem;
-      opacity: 0;
-      animation: fadeIn 1.2s 0.6s forwards;
-    }
-    .hero-stats {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 1.5rem 2rem;
-      margin-bottom: 2rem;
-    }
-    .stat-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3.5rem;
-      line-height: 1;
-      color: var(--paper);
-    }
-    .stat-num sup { font-size: 1.4rem; color: var(--accent); }
-    .stat-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--mid);
-      margin-top: 0.2rem;
-    }
-    .hero-marquee-wrap {
-      overflow: hidden;
-      border-top: 1px solid rgba(245,242,235,0.12);
-      padding-top: 1.2rem;
-    }
-    .hero-marquee {
-      display: flex; gap: 3rem;
-      animation: marquee 18s linear infinite;
-      white-space: nowrap;
-    }
-    .marquee-item {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.1rem;
-      letter-spacing: 0.15em;
-      color: var(--mid);
-      flex-shrink: 0;
-    }
-    .marquee-dot { color: var(--accent); margin-right: 3rem; }
-
-    /* SERVICES */
-    #services {
-      padding: 7rem 3rem;
-      border-bottom: 1px solid rgba(245,242,235,0.12);
-    }
-    .section-header {
-      display: flex; align-items: baseline; gap: 1.5rem;
-      margin-bottom: 4rem;
-    }
-    .section-num {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--accent);
-      letter-spacing: 0.15em;
-    }
-    .section-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      line-height: 1;
-      letter-spacing: 0.02em;
-    }
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0;
-      border: 1px solid rgba(245,242,235,0.12);
-    }
-    .service-card {
-      padding: 2.5rem;
-      border-right: 1px solid rgba(245,242,235,0.12);
-      position: relative;
-      overflow: hidden;
-      transition: background 0.3s;
-    }
-    .service-card:last-child { border-right: none; }
-    .service-card::after {
-      content: '';
-      position: absolute; bottom: 0; left: 0;
-      width: 100%; height: 3px;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.35s cubic-bezier(0.77,0,0.175,1);
-    }
-    .service-card:hover { background: rgba(245,242,235,0.04); }
-    .service-card:hover::after { transform: scaleX(1); }
-    .service-icon {
-      width: 48px; height: 48px;
-      margin-bottom: 1.8rem;
-      opacity: 0.9;
-    }
-    .service-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.7rem;
-      letter-spacing: 0.04em;
-      margin-bottom: 0.8rem;
-    }
-    .service-desc {
-      font-size: 0.9rem;
-      color: var(--mid);
-      line-height: 1.7;
-      font-weight: 300;
-    }
-    .service-tags {
-      margin-top: 1.5rem;
-      display: flex; flex-wrap: wrap; gap: 0.5rem;
-    }
-    .tag {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 0.3rem 0.7rem;
-      border: 1px solid rgba(245,242,235,0.2);
-      color: var(--mid);
-    }
-
-    /* WORK */
-    #work {
-      padding: 7rem 3rem;
-      border-bottom: 1px solid rgba(245,242,235,0.12);
-    }
-    .work-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      background: rgba(245,242,235,0.08);
-    }
-    .work-item {
-      background: var(--ink);
-      padding: 3rem;
-      position: relative;
-      overflow: hidden;
-      min-height: 280px;
-      display: flex; flex-direction: column; justify-content: flex-end;
-    }
-    .work-item:first-child { grid-column: span 2; min-height: 380px; }
-    .work-item-bg {
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, var(--c1), var(--c2));
-      opacity: 0.15;
-      transition: opacity 0.4s;
-    }
-    .work-item:hover .work-item-bg { opacity: 0.28; }
-    .work-item-num {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      color: var(--accent);
-      margin-bottom: 1rem;
-      position: relative;
-    }
-    .work-item-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      line-height: 1;
-      letter-spacing: 0.02em;
-      position: relative;
-    }
-    .work-item-type {
-      margin-top: 0.6rem;
-      font-size: 0.85rem;
-      font-weight: 300;
-      color: var(--mid);
-      position: relative;
-    }
-    .work-link {
-      margin-top: 1.5rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--paper);
-      text-decoration: none;
-      display: inline-flex; align-items: center; gap: 0.6rem;
-      position: relative;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .work-item:hover .work-link { opacity: 1; }
-    .work-link::after {
-      content: '→';
-      transition: transform 0.2s;
-    }
-    .work-link:hover::after { transform: translateX(4px); }
-
-    /* PRICING */
-    #pricing {
-      padding: 7rem 3rem;
-      border-bottom: 1px solid rgba(245,242,235,0.12);
-    }
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      background: rgba(245,242,235,0.08);
-      margin-top: 4rem;
-    }
-    .pricing-card {
-      background: var(--ink);
-      padding: 3rem 2.5rem;
-      position: relative;
-      transition: background 0.3s;
-    }
-    .pricing-card.featured {
-      background: var(--accent);
-    }
-    .pricing-card.featured .price-currency,
-    .pricing-card.featured .price-amount,
-    .pricing-card.featured .price-period,
-    .pricing-card.featured .pricing-name,
-    .pricing-card.featured .pricing-desc,
-    .pricing-card.featured .pricing-feature {
-      color: var(--paper) !important;
-    }
-    .pricing-card.featured .pricing-feature { border-color: rgba(245,242,235,0.25) !important; }
-    .pricing-badge {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      background: var(--ink);
-      color: var(--accent);
-      padding: 0.25rem 0.8rem;
-      display: inline-block;
-      margin-bottom: 1.5rem;
-    }
-    .pricing-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.8rem;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.5rem;
-    }
-    .pricing-desc {
-      font-size: 0.85rem;
-      color: var(--mid);
-      font-weight: 300;
-      margin-bottom: 2rem;
-    }
-    .price-row {
-      display: flex; align-items: baseline; gap: 0.3rem;
-      margin-bottom: 2rem;
-      border-top: 1px solid rgba(245,242,235,0.12);
-      padding-top: 1.5rem;
-    }
-    .pricing-card.featured .price-row { border-color: rgba(245,242,235,0.3); }
-    .price-currency {
-      font-family: 'Space Mono', monospace;
-      font-size: 1rem;
-      color: var(--mid);
-      align-self: flex-start;
-      margin-top: 0.4rem;
-    }
-    .price-amount {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 4rem;
-      line-height: 1;
-      color: var(--paper);
-    }
-    .price-period {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--mid);
-      letter-spacing: 0.1em;
-    }
-    .pricing-features { list-style: none; }
-    .pricing-feature {
-      font-size: 0.88rem;
-      color: var(--mid);
-      padding: 0.65rem 0;
-      border-bottom: 1px solid rgba(245,242,235,0.08);
-      display: flex; align-items: center; gap: 0.7rem;
-      font-weight: 300;
-    }
-    .pricing-feature::before {
-      content: '—';
-      color: var(--accent);
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      flex-shrink: 0;
-    }
-    .pricing-card.featured .pricing-feature::before { color: var(--paper); }
-    .pricing-cta {
-      margin-top: 2.5rem;
-      display: block;
-      text-align: center;
-      padding: 0.9rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border: 2px solid rgba(245,242,235,0.25);
-      color: var(--paper);
-      transition: all 0.25s;
-      cursor: none;
-    }
-    .pricing-cta:hover { border-color: var(--paper); background: rgba(245,242,235,0.06); }
-    .pricing-card.featured .pricing-cta {
-      background: var(--ink);
-      color: var(--paper);
-      border-color: var(--ink);
-    }
-    .pricing-card.featured .pricing-cta:hover { background: rgba(0,0,0,0.8); }
-
-    /* ABOUT */
-    #about {
-      padding: 7rem 3rem;
-      border-bottom: 1px solid rgba(245,242,235,0.12);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: center;
-    }
-    .about-eyebrow {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1.2rem;
-    }
-    .about-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.8rem, 5vw, 4.5rem);
-      line-height: 1;
-      letter-spacing: 0.02em;
-      margin-bottom: 2rem;
-    }
-    .about-body {
-      font-size: 1rem;
-      color: var(--mid);
-      line-height: 1.8;
-      font-weight: 300;
-      margin-bottom: 1.2rem;
-    }
-    .about-profile-link {
-      display: inline-flex; align-items: center; gap: 0.7rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--paper);
-      text-decoration: none;
-      margin-top: 1rem;
-      border-bottom: 1px solid rgba(245,242,235,0.3);
-      padding-bottom: 0.2rem;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .about-profile-link:hover { color: var(--accent); border-color: var(--accent); }
-    .about-profile-link::after { content: '↗'; }
-    .about-right { position: relative; }
-    .about-card {
-      border: 1px solid rgba(245,242,235,0.12);
-      padding: 2.5rem;
-      margin-bottom: 1.5rem;
-    }
-    .about-card-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.2rem;
-      letter-spacing: 0.08em;
-      margin-bottom: 1rem;
-      color: var(--accent);
-    }
-    .skill-list {
-      display: flex; flex-wrap: wrap; gap: 0.6rem;
-    }
-    .skill-pill {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.35rem 0.8rem;
-      border: 1px solid rgba(245,242,235,0.15);
-      color: var(--mid);
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .skill-pill:hover { border-color: var(--accent); color: var(--paper); }
-
-    /* CONTACT */
-    #contact {
-      padding: 7rem 3rem;
-    }
-    .contact-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: start;
-    }
-    .contact-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 7vw, 7rem);
-      line-height: 0.95;
-      letter-spacing: -0.01em;
-    }
-    .contact-title span { color: var(--accent); display: block; }
-    .contact-sub {
-      margin-top: 2rem;
-      font-size: 1rem;
-      color: var(--mid);
-      font-weight: 300;
-      line-height: 1.7;
-    }
-    .contact-links { margin-top: 3rem; }
-    .contact-link-row {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.4rem 0;
-      border-top: 1px solid rgba(245,242,235,0.12);
-      text-decoration: none;
-      color: var(--paper);
-      transition: padding-left 0.2s;
-      cursor: none;
-    }
-    .contact-link-row:last-child { border-bottom: 1px solid rgba(245,242,235,0.12); }
-    .contact-link-row:hover { padding-left: 0.8rem; }
-    .contact-link-row:hover .cl-arrow { transform: rotate(-45deg); }
-    .cl-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--mid);
-    }
-    .cl-value {
-      font-size: 1rem;
-      font-weight: 300;
-    }
-    .cl-arrow {
-      font-size: 1.2rem;
-      transition: transform 0.2s;
-    }
-    .contact-right { padding-top: 1rem; }
-    .contact-form-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.6rem;
-      letter-spacing: 0.05em;
-      margin-bottom: 2rem;
-      color: var(--mid);
-    }
-    .form-group { margin-bottom: 1.5rem; }
-    .form-group label {
-      display: block;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--mid);
-      margin-bottom: 0.5rem;
-    }
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      width: 100%;
-      background: rgba(245,242,235,0.05);
-      border: 1px solid rgba(245,242,235,0.15);
-      color: var(--paper);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 300;
-      padding: 0.85rem 1.1rem;
-      outline: none;
-      transition: border-color 0.2s;
-      appearance: none;
-      -webkit-appearance: none;
-      cursor: none;
-    }
-    .form-group select { cursor: none; }
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      border-color: var(--accent);
-    }
-    .form-group textarea { resize: vertical; min-height: 100px; }
-    .form-submit {
-      width: 100%;
-      padding: 1rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.78rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      background: var(--accent);
-      color: var(--paper);
-      border: 2px solid var(--accent);
-      cursor: none;
-      transition: all 0.25s;
-    }
-    .form-submit:hover { background: transparent; color: var(--accent); }
-
-    /* FOOTER */
-    footer {
-      border-top: 1px solid rgba(245,242,235,0.12);
-      padding: 2.5rem 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .footer-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.3rem;
-      letter-spacing: 0.08em;
-      color: var(--paper);
-    }
-    .footer-copy {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      color: var(--mid);
-    }
-    .footer-copy span { color: var(--accent); }
-
-    /* ANIMATIONS */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes marquee {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
-
-    /* SCROLL REVEAL */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 900px) {
-      nav { padding: 1.2rem 1.5rem; }
-      .nav-links { display: none; }
-      #hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 4rem; gap: 4rem; }
-      .hero-right { display: none; }
-      .services-grid { grid-template-columns: 1fr; }
-      .service-card { border-right: none; border-bottom: 1px solid rgba(245,242,235,0.12); }
-      .work-grid { grid-template-columns: 1fr; }
-      .work-item:first-child { grid-column: span 1; }
-      .pricing-grid { grid-template-columns: 1fr; }
-      #about { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 1.5rem; }
-      #services, #work, #pricing, #contact { padding: 5rem 1.5rem; }
-      .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
-      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
-    }
-  </style>
-</head>
-<body>
-
-<div id="cursor"></div>
-
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">VLOK/</a>
-  <ul class="nav-links">
-    <li><a href="#services">Services</a></li>
-    <li><a href="#work">Work</a></li>
-    <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-left">
-    <p class="hero-tag">// Web & SaaS Development</p>
-    <h1 class="hero-title">
-      Build<br/>
-      <span>Better</span><br/>
-      Digital
-    </h1>
-    <p class="hero-sub">
-      Freelance web solutions, SaaS platforms, and B2B digital products — crafted with precision and built to scale.
-    </p>
-    <div class="hero-cta">
-      <a href="#contact" class="btn btn-primary">Start a project</a>
-      <a href="#work" class="btn btn-ghost">View work</a>
-    </div>
-  </div>
-  <div class="hero-right">
-    <div class="hero-stats">
-      <div>
-        <div class="stat-num">30<sup>+</sup></div>
-        <div class="stat-label">Projects shipped</div>
-      </div>
-      <div>
-        <div class="stat-num">4<sup>+</sup></div>
-        <div class="stat-label">Years building</div>
-      </div>
-      <div>
-        <div class="stat-num">100<sup>%</sup></div>
-        <div class="stat-label">Client satisfaction</div>
-      </div>
-      <div>
-        <div class="stat-num">B2B</div>
-        <div class="stat-label">SaaS specialist</div>
-      </div>
-    </div>
-    <div class="hero-marquee-wrap">
-      <div class="hero-marquee">
-        <span class="marquee-item">React</span><span class="marquee-dot">✦</span>
-        <span class="marquee-item">Next.js</span><span class="marquee-dot">✦</span>
-        <span class="marquee-item">Node.js</span><span class="marquee-dot">✦</span>
-        <span class="marquee-item">SaaS</span><span class="marquee-dot">✦</span>
-        <span class="marquee-item">B2B</span><span class="marquee-dot">✦</span>
-        <span class="marquee-item">Tailwind</span><span class="marquee-dot">✦</span>
-        <span class="marquee-item">PostgreSQL</span><span class="marquee-dot">✦</span>
-        <span class="marquee-item">API Design</span><span class="marquee-dot">✦</span>
-        <!-- repeated for seamless loop -->
-        <span class="marquee-item">React</span><span class="marquee-dot">✦</span>
-        <span class="marquee-item">Next.js</span><span class="marquee-dot">✦</span>
-        <span class="marquee-item">Node.js</span><span class="marquee-dot">✦</span>
-        <span class="marquee-item">SaaS</span><span class="marquee-dot">✦</span>
-        <span class="marquee-item">B2B</span><span class="marquee-dot">✦</span>
-        <span class="marquee-item">Tailwind</span><span class="marquee-dot">✦</span>
-        <span class="marquee-item">PostgreSQL</span><span class="marquee-dot">✦</span>
-        <span class="marquee-item">API Design</span><span class="marquee-dot">✦</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SERVICES -->
-<section id="services">
-  <div class="section-header reveal">
-    <span class="section-num">01</span>
-    <h2 class="section-title">What I Build</h2>
-  </div>
-  <div class="services-grid">
-    <div class="service-card reveal">
-      <svg class="service-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="4" y="8" width="40" height="28" rx="2" stroke="#ff3c2f" stroke-width="2"/>
-        <path d="M4 14h40M16 36v4M32 36v4M12 40h24" stroke="#ff3c2f" stroke-width="2" stroke-linecap="round"/>
-        <path d="M18 22l-4 3 4 3M30 22l4 3-4 3M23 19l2 10" stroke="rgba(245,242,235,0.6)" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-      <h3 class="service-name">Web Development</h3>
-      <p class="service-desc">Fast, accessible, and beautifully crafted websites. From landing pages to complex web applications — pixel-perfect across all devices.</p>
-      <div class="service-tags">
-        <span class="tag">React</span>
-        <span class="tag">Next.js</span>
-        <span class="tag">HTML/CSS</span>
-        <span class="tag">WordPress</span>
-      </div>
-    </div>
-    <div class="service-card reveal" style="transition-delay:0.12s">
-      <svg class="service-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M8 12h32M8 24h32M8 36h32" stroke="rgba(245,242,235,0.4)" stroke-width="1.5" stroke-linecap="round"/>
-        <rect x="10" y="8" width="28" height="32" rx="3" stroke="#ff3c2f" stroke-width="2"/>
-        <path d="M18 20h12M18 28h8" stroke="rgba(245,242,235,0.7)" stroke-width="1.5" stroke-linecap="round"/>
-        <circle cx="34" cy="34" r="8" fill="var(--ink)" stroke="#1a1aff" stroke-width="2"/>
-        <path d="M31 34h6M34 31v6" stroke="#1a1aff" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-      <h3 class="service-name">SaaS Platforms</h3>
-      <p class="service-desc">Full-stack SaaS products with authentication, billing, dashboards, and multi-tenant architecture — ready to onboard your first paying customer.</p>
-      <div class="service-tags">
-        <span class="tag">Node.js</span>
-        <span class="tag">PostgreSQL</span>
-        <span class="tag">Stripe</span>
-        <span class="tag">Auth</span>
-      </div>
-    </div>
-    <div class="service-card reveal" style="transition-delay:0.24s">
-      <svg class="service-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="14" cy="24" r="8" stroke="#ff3c2f" stroke-width="2"/>
-        <circle cx="34" cy="24" r="8" stroke="rgba(245,242,235,0.4)" stroke-width="2"/>
-        <path d="M22 24h4" stroke="rgba(245,242,235,0.7)" stroke-width="2" stroke-linecap="round"/>
-        <path d="M8 14v-4h4M8 34v4h4M40 14v-4h-4M40 34v4h-4" stroke="rgba(245,242,235,0.3)" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-      <h3 class="service-name">B2B Solutions</h3>
-      <p class="service-desc">Custom internal tools, client portals, CRM integrations, and automation workflows that streamline your business operations and impress your clients.</p>
-      <div class="service-tags">
-        <span class="tag">REST APIs</span>
-        <span class="tag">Integrations</span>
-        <span class="tag">Dashboards</span>
-        <span class="tag">Automation</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- WORK -->
-<section id="work">
-  <div class="section-header reveal">
-    <span class="section-num">02</span>
-    <h2 class="section-title">Selected Work</h2>
-  </div>
-  <div class="work-grid">
-    <div class="work-item reveal" style="--c1:#ff3c2f;--c2:#ff8a00">
-      <div class="work-item-bg"></div>
-      <span class="work-item-num">01 — SAAS PLATFORM</span>
-      <h3 class="work-item-name">Analytics Dashboard</h3>
-      <p class="work-item-type">B2B SaaS · React · Node.js · PostgreSQL</p>
-      <a href="#contact" class="work-link">View details</a>
-    </div>
-    <div class="work-item reveal" style="--c1:#1a1aff;--c2:#8a00ff">
-      <div class="work-item-bg"></div>
-      <span class="work-item-num">02 — WEB APP</span>
-      <h3 class="work-item-name">Client Portal</h3>
-      <p class="work-item-type">B2B · Next.js · Auth · Stripe</p>
-      <a href="#contact" class="work-link">View details</a>
-    </div>
-    <div class="work-item reveal" style="--c1:#00c896;--c2:#1a1aff">
-      <div class="work-item-bg"></div>
-      <span class="work-item-num">03 — WEBSITE</span>
-      <h3 class="work-item-name">Marketing Site</h3>
-      <p class="work-item-type">Corporate · Next.js · CMS · SEO</p>
-      <a href="#contact" class="work-link">View details</a>
-    </div>
-  </div>
-  <p style="margin-top:2rem;font-size:0.85rem;color:var(--mid);font-family:'Space Mono',monospace;letter-spacing:0.08em;">
-    More work available on request — <a href="mailto:vlokprodction@gmail.com" style="color:var(--accent);text-decoration:none;">get in touch</a>
-  </p>
-</section>
-
-<!-- PRICING -->
-<section id="pricing">
-  <div class="section-header reveal">
-    <span class="section-num">03</span>
-    <h2 class="section-title">Transparent Pricing</h2>
-  </div>
-  <div class="pricing-grid">
-    <div class="pricing-card reveal">
-      <p class="pricing-name">Starter</p>
-      <p class="pricing-desc">Perfect for landing pages, portfolios, and small business sites.</p>
-      <div class="price-row">
-        <span class="price-currency">$</span>
-        <span class="price-amount">299</span>
-        <span class="price-period">/ project</span>
-      </div>
-      <ul class="pricing-features">
-        <li class="pricing-feature">Up to 5 pages</li>
-        <li class="pricing-feature">Responsive design</li>
-        <li class="pricing-feature">Contact form</li>
-        <li class="pricing-feature">SEO basics</li>
-        <li class="pricing-feature">2 revision rounds</li>
-        <li class="pricing-feature">7-day delivery</li>
-      </ul>
-      <a href="#contact" class="pricing-cta">Get started</a>
-    </div>
-    <div class="pricing-card featured reveal" style="transition-delay:0.12s">
-      <span class="pricing-badge">Most Popular</span>
-      <p class="pricing-name">Pro</p>
-      <p class="pricing-desc">Custom web apps, SaaS MVPs, and full-featured business solutions.</p>
-      <div class="price-row">
-        <span class="price-currency">$</span>
-        <span class="price-amount">999</span>
-        <span class="price-period">/ project</span>
-      </div>
-      <ul class="pricing-features">
-        <li class="pricing-feature">Full custom web app</li>
-        <li class="pricing-feature">Backend + database</li>
-        <li class="pricing-feature">User auth system</li>
-        <li class="pricing-feature">Payment integration</li>
-        <li class="pricing-feature">Unlimited revisions</li>
-        <li class="pricing-feature">30-day support</li>
-      </ul>
-      <a href="#contact" class="pricing-cta">Get started</a>
-    </div>
-    <div class="pricing-card reveal" style="transition-delay:0.24s">
-      <p class="pricing-name">Enterprise</p>
-      <p class="pricing-desc">B2B platforms, large-scale SaaS, and ongoing development partnerships.</p>
-      <div class="price-row">
-        <span class="price-currency">$</span>
-        <span class="price-amount">Custom</span>
-      </div>
-      <ul class="pricing-features">
-        <li class="pricing-feature">Multi-tenant SaaS</li>
-        <li class="pricing-feature">Custom integrations</li>
-        <li class="pricing-feature">Team dashboards</li>
-        <li class="pricing-feature">Priority support</li>
-        <li class="pricing-feature">Retainer options</li>
-        <li class="pricing-feature">NDA available</li>
-      </ul>
-      <a href="#contact" class="pricing-cta">Let's talk</a>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="about-left reveal">
-    <p class="about-eyebrow">// About me</p>
-    <h2 class="about-title">Developer.<br/>Problem<br/>Solver.</h2>
-    <p class="about-body">
-      I'm Vishwa Aloka — a freelance web developer specialising in clean, functional digital products. I bridge the gap between design and engineering to deliver web solutions that work beautifully and scale reliably.
-    </p>
-    <p class="about-body">
-      From lean MVPs to production-grade SaaS platforms, I work closely with founders, product teams, and businesses to bring their digital vision to life — on time, within budget, and with zero compromises on quality.
-    </p>
-    <a href="https://vishwa-aloka-16.github.io" target="_blank" rel="noopener noreferrer" class="about-profile-link">
-      Visit full profile
-    </a>
-  </div>
-  <div class="about-right reveal" style="transition-delay:0.15s">
-    <div class="about-card">
-      <h4 class="about-card-title">Frontend</h4>
-      <div class="skill-list">
-        <span class="skill-pill">HTML5</span>
-        <span class="skill-pill">CSS3</span>
-        <span class="skill-pill">JavaScript</span>
-        <span class="skill-pill">TypeScript</span>
-        <span class="skill-pill">React</span>
-        <span class="skill-pill">Next.js</span>
-        <span class="skill-pill">Tailwind</span>
-        <span class="skill-pill">Figma</span>
-      </div>
-    </div>
-    <div class="about-card">
-      <h4 class="about-card-title">Backend & Data</h4>
-      <div class="skill-list">
-        <span class="skill-pill">Node.js</span>
-        <span class="skill-pill">Express</span>
-        <span class="skill-pill">PostgreSQL</span>
-        <span class="skill-pill">MongoDB</span>
-        <span class="skill-pill">REST API</span>
-        <span class="skill-pill">GraphQL</span>
-        <span class="skill-pill">Firebase</span>
-      </div>
-    </div>
-    <div class="about-card">
-      <h4 class="about-card-title">Tools & DevOps</h4>
-      <div class="skill-list">
-        <span class="skill-pill">Git</span>
-        <span class="skill-pill">Vercel</span>
-        <span class="skill-pill">AWS</span>
-        <span class="skill-pill">Docker</span>
-        <span class="skill-pill">Stripe</span>
-        <span class="skill-pill">Supabase</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="contact-inner">
-    <div class="reveal">
-      <h2 class="contact-title">
-        Let's<br/>
-        <span>Work.</span>
-      </h2>
-      <p class="contact-sub">
-        Have a project in mind? Whether it's a quick site or a complex SaaS platform, I'd love to hear about it. Reach out and let's build something great together.
-      </p>
-      <div class="contact-links">
-        <a href="mailto:vlokprodction@gmail.com" class="contact-link-row">
-          <div>
-            <div class="cl-label">Email</div>
-            <div class="cl-value">vlokprodction@gmail.com</div>
-          </div>
-          <span class="cl-arrow">↗</span>
-        </a>
-        <a href="https://vishwa-aloka-16.github.io" target="_blank" rel="noopener" class="contact-link-row">
-          <div>
-            <div class="cl-label">Portfolio</div>
-            <div class="cl-value">vishwa-aloka-16.github.io</div>
-          </div>
-          <span class="cl-arrow">↗</span>
-        </a>
-        <a href="https://github.com/vlokprodction" target="_blank" rel="noopener" class="contact-link-row">
-          <div>
-            <div class="cl-label">GitHub</div>
-            <div class="cl-value">vlokprodction</div>
-          </div>
-          <span class="cl-arrow">↗</span>
-        </a>
-      </div>
-    </div>
-    <div class="contact-right reveal" style="transition-delay:0.15s">
-      <p class="contact-form-title">Send a message</p>
-      <div class="form-group">
-        <label>Your name</label>
-        <input type="text" placeholder="Jane Smith" />
-      </div>
-      <div class="form-group">
-        <label>Email address</label>
-        <input type="email" placeholder="jane@company.com" />
-      </div>
-      <div class="form-group">
-        <label>Project type</label>
-        <select>
-          <option value="">Select a service...</option>
-          <option>Website / Landing Page</option>
-          <option>SaaS Platform</option>
-          <option>B2B Web App</option>
-          <option>API / Backend</option>
-          <option>Other</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Tell me about your project</label>
-        <textarea placeholder="Describe what you're building and your timeline..."></textarea>
-      </div>
-      <button class="form-submit" onclick="handleSubmit(this)">Send message →</button>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <span class="footer-logo">VLOK/PRODUCTION</span>
-  <span class="footer-copy">© 2025 VlokProduction — <span>Available for new projects</span></span>
-</footer>
-
-<script>
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-  });
-  document.querySelectorAll('a, button, .work-item, .service-card, .pricing-card').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
-  });
-
-  // Scroll reveal
-  const revealEls = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+<html class="scroll-smooth" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Home | Vlok Production</title>
+    <link rel="icon" type="image/png" href="./img/Logog Small.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed": "#000f5d",
+              "surface-tint": "#2c4de1",
+              "secondary-fixed-dim": "#bbc3ff",
+              "on-error": "#ffffff",
+              "on-tertiary-fixed-variant": "#8c1800",
+              "tertiary-fixed-dim": "#ffb4a4",
+              "surface-dim": "#d6dae5",
+              "tertiary-container": "#911900",
+              "on-secondary-fixed-variant": "#002ccd",
+              secondary: "#1c3fe7",
+              "on-tertiary-container": "#ffa08b",
+              "on-surface": "#171c23",
+              "outline-variant": "#c4c5d8",
+              "on-background": "#171c23",
+              "primary-container": "#0033cc",
+              surface: "#f8f9ff",
+              "on-primary": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-secondary": "#ffffff",
+              "secondary-fixed": "#dee0ff",
+              "on-error-container": "#93000a",
+              "on-primary-fixed-variant": "#0031c5",
+              "surface-container-lowest": "#ffffff",
+              "inverse-on-surface": "#edf1fc",
+              outline: "#747687",
+              "surface-container-low": "#eff3fe",
+              "primary-fixed": "#dee1ff",
+              error: "#ba1a1a",
+              "tertiary-fixed": "#ffdad3",
+              "inverse-surface": "#2c3139",
+              "surface-container": "#eaeef9",
+              "surface-bright": "#f8f9ff",
+              "surface-container-high": "#e4e8f3",
+              "primary-fixed-dim": "#bac3ff",
+              "surface-container-highest": "#dee2ed",
+              primary: "#002294",
+              background: "#f8f9ff",
+              "on-tertiary": "#ffffff",
+              "surface-variant": "#dee2ed",
+              "on-tertiary-fixed": "#3d0500",
+              "on-primary-container": "#a8b5ff",
+              "inverse-primary": "#bac3ff",
+              "on-surface-variant": "#444655",
+              tertiary: "#680f00",
+              "secondary-container": "#405cff",
+              "on-secondary-container": "#f5f3ff",
+              "on-primary-fixed": "#001159",
+            },
+            borderRadius: {
+              DEFAULT: "1rem",
+              lg: "2rem",
+              xl: "3rem",
+              full: "9999px",
+            },
+            fontFamily: {
+              headline: ["Plus Jakarta Sans"],
+              body: ["Plus Jakarta Sans"],
+              label: ["Plus Jakarta Sans"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #f8f9ff;
+        background-image: radial-gradient(#0033cc 0.5px, transparent 0.5px);
+        background-size: 24px 24px;
       }
-    });
-  }, { threshold: 0.12 });
-  revealEls.forEach(el => observer.observe(el));
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .memphis-squiggle {
+        clip-path: polygon(
+          0% 15%,
+          15% 15%,
+          15% 0%,
+          85% 0%,
+          85% 15%,
+          100% 15%,
+          100% 85%,
+          85% 85%,
+          85% 100%,
+          15% 100%,
+          15% 85%,
+          0% 85%
+        );
+      }
+      .blueprint-plus {
+        position: relative;
+      }
+      .blueprint-plus::before {
+        content: "+";
+        position: absolute;
+        color: #0033cc;
+        font-weight: 800;
+        font-size: 1.2rem;
+      }
+      .mobile-nav {
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 1.5rem;
+        background:
+          radial-gradient(circle at top right, rgba(186, 195, 255, 0.55), transparent 28%),
+          linear-gradient(180deg, rgba(248, 249, 255, 0.98), rgba(239, 243, 254, 0.98));
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(-100%);
+        transition:
+          opacity 260ms ease,
+          transform 360ms cubic-bezier(0.22, 1, 0.36, 1),
+          visibility 0s linear 360ms;
+      }
+      .mobile-nav.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
+        transition:
+          opacity 260ms ease,
+          transform 360ms cubic-bezier(0.22, 1, 0.36, 1),
+          visibility 0s linear 0s;
+      }
+      .mobile-nav-link {
+        opacity: 0;
+        transform: translateY(18px);
+        transition:
+          opacity 280ms ease,
+          transform 280ms ease,
+          color 200ms ease;
+      }
+      .mobile-nav.is-open .mobile-nav-link {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .mobile-nav.is-open .mobile-nav-link:nth-child(1) {
+        transition-delay: 70ms;
+      }
+      .mobile-nav.is-open .mobile-nav-link:nth-child(2) {
+        transition-delay: 130ms;
+      }
+      .mobile-nav.is-open .mobile-nav-link:nth-child(3) {
+        transition-delay: 190ms;
+      }
+      .mobile-nav.is-open .mobile-nav-link:nth-child(4) {
+        transition-delay: 250ms;
+      }
+      .mobile-nav.is-open .mobile-nav-link:nth-child(5) {
+        transition-delay: 310ms;
+      }
+      body.mobile-menu-open {
+        overflow: hidden;
+      }
+      .hero-logo-stage {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+      }
+      .hero-logo-backdrop {
+        position: absolute;
+        inset: 10% 8%;
+        border-radius: 9999px;
+        background:
+          radial-gradient(circle at 50% 50%, rgba(64, 92, 255, 0.09), transparent 36%),
+          radial-gradient(circle at 30% 30%, rgba(186, 195, 255, 0.12), transparent 30%),
+          radial-gradient(circle at 70% 70%, rgba(64, 92, 255, 0.08), transparent 28%);
+        filter: blur(12px);
+        pointer-events: none;
+      }
+      .hero-logo-svg {
+        width: min(100%, 600px);
+        height: auto;
+        overflow: visible;
+      }
+      .hero-logo-ray {
+        fill: none;
+        stroke: #2c4de1;
+        stroke-width: 24;
+        stroke-linecap: round;
+        stroke-dasharray: 172;
+        stroke-dashoffset: 172;
+        animation: hero-ray-draw 4.8s ease-in-out infinite;
+      }
+      .hero-logo-dot {
+        fill: #2c4de1;
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: hero-dot-pop 4.8s ease-in-out infinite;
+      }
+      .hero-logo-ring {
+        fill: #002294;
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: hero-center-build 4.8s ease-in-out infinite;
+      }
+      .hero-logo-core {
+        fill: #405cff;
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: hero-core-build 4.8s ease-in-out infinite;
+      }
+      .hero-logo-halo {
+        fill: rgba(64, 92, 255, 0.08);
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: hero-halo-pulse 4.8s ease-in-out infinite;
+      }
+      .hero-logo-ambient {
+        animation: hero-logo-float 6s ease-in-out infinite;
+        transform-origin: center;
+      }
+      .hero-cycle-text {
+        display: inline-block;
+        min-width: 11.5ch;
+        white-space: nowrap;
+        border-right: 2px solid currentColor;
+        padding-right: 0.18em;
+        animation: hero-caret-blink 0.9s steps(1) infinite;
+      }
+      @keyframes hero-caret-blink {
+        0%,
+        49% {
+          border-right-color: currentColor;
+        }
+        50%,
+        100% {
+          border-right-color: transparent;
+        }
+      }
+      .hero-logo-delay-1 {
+        animation-delay: 0.1s;
+      }
+      .hero-logo-delay-2 {
+        animation-delay: 0.22s;
+      }
+      .hero-logo-delay-3 {
+        animation-delay: 0.34s;
+      }
+      .hero-logo-delay-4 {
+        animation-delay: 0.46s;
+      }
+      .hero-logo-delay-5 {
+        animation-delay: 0.58s;
+      }
+      .hero-logo-delay-6 {
+        animation-delay: 0.7s;
+      }
+      .hero-logo-delay-7 {
+        animation-delay: 0.82s;
+      }
+      .hero-logo-delay-8 {
+        animation-delay: 0.94s;
+      }
+      .hero-logo-delay-9 {
+        animation-delay: 1.06s;
+      }
+      @keyframes hero-dot-pop {
+        0%,
+        8% {
+          opacity: 0;
+          transform: scale(0.2);
+        }
+        16%,
+        26% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        36%,
+        100% {
+          opacity: 0;
+          transform: scale(0.7);
+        }
+      }
+      @keyframes hero-ray-draw {
+        0%,
+        14% {
+          stroke-dashoffset: 172;
+          opacity: 0;
+        }
+        42% {
+          stroke-dashoffset: 0;
+          opacity: 1;
+        }
+        100% {
+          stroke-dashoffset: 0;
+          opacity: 1;
+        }
+      }
+      @keyframes hero-center-build {
+        0%,
+        36% {
+          opacity: 0;
+          transform: scale(0.65);
+        }
+        58%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      @keyframes hero-core-build {
+        0%,
+        44% {
+          opacity: 0;
+          transform: scale(0.25);
+        }
+        60%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      @keyframes hero-halo-pulse {
+        0%,
+        40% {
+          opacity: 0;
+          transform: scale(0.4);
+        }
+        58% {
+          opacity: 0.85;
+          transform: scale(1.08);
+        }
+        100% {
+          opacity: 0.08;
+          transform: scale(1.14);
+        }
+      }
+      @keyframes hero-logo-float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+      .showcase-card {
+        transform: translateY(0);
+        box-shadow: 0 18px 42px -28px rgba(0, 34, 148, 0.2);
+        transition:
+          transform 280ms ease,
+          box-shadow 280ms ease,
+          border-color 280ms ease,
+          background-color 280ms ease;
+      }
+      .showcase-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 28px 56px -30px rgba(0, 34, 148, 0.3);
+      }
+      .partners-marquee {
+        width: 100%;
+        overflow: hidden;
+      }
+      .partners-track {
+        display: flex;
+        width: max-content;
+        align-items: center;
+        gap: 3rem;
+        white-space: nowrap;
+        will-change: transform;
+        animation: partners-roll 22s linear infinite;
+      }
+      .partners-track span {
+        display: inline-block;
+      }
+      @keyframes partners-roll {
+        0%,
+        5% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+      @media (max-width: 1023px) {
+        .hero-logo-stage {
+          inset: -7rem -8rem -5rem -8rem;
+          justify-content: flex-end;
+          opacity: 0.14;
+        }
+        .hero-logo-backdrop {
+          inset: 0;
+          background:
+            radial-gradient(circle at 60% 42%, rgba(64, 92, 255, 0.08), transparent 34%),
+            radial-gradient(circle at 50% 50%, rgba(186, 195, 255, 0.08), transparent 38%);
+          filter: blur(18px);
+        }
+        .hero-logo-svg {
+          width: min(220vw, 1200px);
+          transform: translate(22%, 4%);
+        }
+        .hero-logo-ray,
+        .hero-logo-dot,
+        .hero-logo-ring,
+        .hero-logo-core,
+        .hero-logo-halo {
+          opacity: 0.55;
+        }
+      }
+      .reveal-text,
+      .reveal-card {
+        opacity: 0;
+        will-change: transform, opacity, filter;
+        transition:
+          opacity 680ms ease,
+          transform 680ms cubic-bezier(0.22, 1, 0.36, 1),
+          filter 680ms ease;
+        transition-delay: var(--reveal-delay, 0ms);
+      }
+      .reveal-text {
+        transform: translateY(26px);
+        filter: blur(8px);
+      }
+      .reveal-card {
+        transform: translateY(34px) scale(0.985);
+        filter: blur(12px);
+      }
+      .reveal-text.is-visible,
+      .reveal-card.is-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .reveal-text,
+        .reveal-card {
+          opacity: 1;
+          transform: none;
+          filter: none;
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="text-on-surface antialiased overflow-x-hidden">
+    <!-- TopNavBar -->
+    <nav
+      class="fixed top-0 w-full z-50 rounded-b-2xl bg-blue-50/15 backdrop-blur-xl border-b-2 border-blue-700/10 shadow-[0_10px_40px_-15px_rgba(0,51,204,0.06)]"
+    >
+      <div
+        class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto"
+      >
+        <div class="text-2xl font-black text-blue-700 tracking-tighter">
+          Vlok Production
+        </div>
+        <div class="hidden md:flex gap-8 items-center">
+          <a
+            class="text-blue-700 font-bold border-b-2 border-blue-700 text-xs uppercase tracking-widest transition-colors duration-300"
+            href="index.html"
+            >Home</a
+          >
+          <a
+            class="text-slate-600 font-medium text-xs uppercase tracking-widest hover:text-blue-600 transition-colors duration-300"
+            href="about.html"
+            >About</a
+          >
+          <a
+            class="text-slate-600 font-medium text-xs uppercase tracking-widest hover:text-blue-600 transition-colors duration-300"
+            href="projects.html"
+            >Our Work</a
+          >
+          <a
+            class="text-slate-600 font-medium text-xs uppercase tracking-widest hover:text-blue-600 transition-colors duration-300"
+            href="pricing.html"
+            >Pricing</a
+          >
+          <a
+            class="text-slate-600 font-medium text-xs uppercase tracking-widest hover:text-blue-600 transition-colors duration-300"
+            href="contact.html"
+            >Contact</a
+          >
+        </div>
+        <button
+          class="hidden md:inline-flex bg-primary-container text-on-primary px-6 py-2.5 rounded-full font-bold scale-95 active:scale-90 transition-transform shadow-lg shadow-blue-700/20"
+        >
+          Get Started
+        </button>
+        <button
+          aria-controls="mobile-nav"
+          aria-expanded="false"
+          aria-label="Open navigation menu"
+          class="md:hidden inline-flex h-12 w-12 items-center justify-center rounded-full border-2 border-primary/15 bg-white/80 text-primary shadow-lg shadow-blue-700/10 backdrop-blur"
+          data-mobile-nav-open
+          type="button"
+        >
+          <span class="material-symbols-outlined" data-icon="menu">menu</span>
+        </button>
+      </div>
+    </nav>
+    <div
+      aria-hidden="true"
+      class="mobile-nav md:hidden"
+      data-mobile-nav
+      id="mobile-nav"
+    >
+      <div class="flex items-center justify-between">
+        <div class="text-2xl font-black text-blue-700 tracking-tighter">
+          Vlok Production
+        </div>
+        <button
+          aria-label="Close navigation menu"
+          class="inline-flex h-12 w-12 items-center justify-center rounded-full border-2 border-primary/15 bg-white text-primary shadow-lg shadow-blue-700/10"
+          data-mobile-nav-close
+          type="button"
+        >
+          <span class="material-symbols-outlined" data-icon="close">close</span>
+        </button>
+      </div>
+      <div class="flex flex-1 flex-col justify-center gap-5">
+        <a
+          class="mobile-nav-link text-4xl font-black tracking-tight text-primary"
+          href="index.html"
+          >Home</a
+        >
+        <a
+          class="mobile-nav-link text-4xl font-black tracking-tight text-on-surface hover:text-primary"
+          href="about.html"
+          >About</a
+        >
+        <a
+          class="mobile-nav-link text-4xl font-black tracking-tight text-on-surface hover:text-primary"
+          href="projects.html"
+          >Our Work</a
+        >
+        <a
+          class="mobile-nav-link text-4xl font-black tracking-tight text-on-surface hover:text-primary"
+          href="pricing.html"
+          >Pricing</a
+        >
+        <a
+          class="mobile-nav-link text-4xl font-black tracking-tight text-on-surface hover:text-primary"
+          href="contact.html"
+          >Contact</a
+        >
+      </div>
+      <div class="flex items-center justify-between gap-4">
+        <p class="max-w-[12rem] text-sm font-medium leading-relaxed text-on-surface-variant">
+          Bold interfaces, precise builds, and full-scale digital execution.
+        </p>
+        <a
+          class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-bold text-white shadow-lg shadow-blue-700/20"
+          href="contact.html"
+          >Get Started</a
+        >
+      </div>
+    </div>
+    <!-- Hero Section -->
+    <header class="relative pt-32 pb-20 md:pt-48 md:pb-32 px-6 overflow-hidden">
+      <div
+        class="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"
+      >
+        <div class="hero-logo-stage lg:hidden" aria-hidden="true">
+          <div class="hero-logo-backdrop"></div>
+          <svg
+            class="hero-logo-svg"
+            viewBox="0 0 520 520"
+            aria-hidden="true"
+          >
+            <g class="hero-logo-ambient">
+              <circle class="hero-logo-halo" cx="260" cy="260" r="100"></circle>
 
-  // Simple form handler
-  function handleSubmit(btn) {
-    const name = btn.closest('.contact-right').querySelector('input[type="text"]').value;
-    const email = btn.closest('.contact-right').querySelector('input[type="email"]').value;
-    const message = btn.closest('.contact-right').querySelector('textarea').value;
+              <circle class="hero-logo-dot" cx="260" cy="54" r="11"></circle>
+              <line class="hero-logo-ray" x1="260" y1="88" x2="260" y2="172"></line>
 
-    if (!name || !email || !message) {
-      btn.textContent = 'Please fill all fields';
-      btn.style.background = 'rgba(255,60,47,0.2)';
-      btn.style.color = 'var(--accent)';
-      setTimeout(() => {
-        btn.textContent = 'Send message →';
-        btn.style.background = 'var(--accent)';
-        btn.style.color = 'var(--paper)';
-      }, 2000);
-      return;
-    }
+              <circle class="hero-logo-dot hero-logo-delay-1" cx="381" cy="93" r="11"></circle>
+              <line class="hero-logo-ray hero-logo-delay-1" x1="361" y1="122" x2="312" y2="190"></line>
 
-    // Compose mailto
-    const subject = encodeURIComponent('Project Inquiry from ' + name);
-    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
-    window.location.href = `mailto:vlokprodction@gmail.com?subject=${subject}&body=${body}`;
+              <circle class="hero-logo-dot hero-logo-delay-2" cx="456" cy="199" r="11"></circle>
+              <line class="hero-logo-ray hero-logo-delay-2" x1="423" y1="209" x2="343" y2="235"></line>
 
-    btn.textContent = 'Opening email client...';
-    btn.style.background = 'rgba(245,242,235,0.1)';
-  }
-</script>
-</body>
+              <circle class="hero-logo-dot hero-logo-delay-3" cx="456" cy="321" r="11"></circle>
+              <line class="hero-logo-ray hero-logo-delay-3" x1="423" y1="311" x2="343" y2="285"></line>
+
+              <circle class="hero-logo-dot hero-logo-delay-4" cx="381" cy="427" r="11"></circle>
+              <line class="hero-logo-ray hero-logo-delay-4" x1="361" y1="398" x2="312" y2="330"></line>
+
+              <circle class="hero-logo-dot hero-logo-delay-5" cx="260" cy="466" r="11"></circle>
+              <line class="hero-logo-ray hero-logo-delay-5" x1="260" y1="432" x2="260" y2="348"></line>
+
+              <circle class="hero-logo-dot hero-logo-delay-6" cx="139" cy="427" r="11"></circle>
+              <line class="hero-logo-ray hero-logo-delay-6" x1="159" y1="398" x2="208" y2="330"></line>
+
+              <circle class="hero-logo-dot hero-logo-delay-7" cx="64" cy="321" r="11"></circle>
+              <line class="hero-logo-ray hero-logo-delay-7" x1="97" y1="311" x2="177" y2="285"></line>
+
+              <circle class="hero-logo-dot hero-logo-delay-8" cx="64" cy="199" r="11"></circle>
+              <line class="hero-logo-ray hero-logo-delay-8" x1="97" y1="209" x2="177" y2="235"></line>
+
+              <circle class="hero-logo-dot hero-logo-delay-9" cx="139" cy="93" r="11"></circle>
+              <line class="hero-logo-ray hero-logo-delay-9" x1="159" y1="122" x2="208" y2="190"></line>
+
+              <circle class="hero-logo-ring" cx="260" cy="260" r="58"></circle>
+              <circle class="hero-logo-core" cx="260" cy="260" r="40"></circle>
+            </g>
+          </svg>
+        </div>
+        <div class="relative z-10">
+          <div
+            class="inline-block bg-secondary-fixed text-primary px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-[0.2em] mb-6 border-2 border-primary/10"
+          >
+            <span
+              class="hero-cycle-text"
+              data-hero-cycle
+              >Engineering Creativity</span
+            >
+          </div>
+          <h1
+            class="text-5xl md:text-7xl font-extrabold text-on-surface leading-[1.05] tracking-[-0.03em] mb-8"
+          >
+            We build the <span class="text-primary italic">Blueprints</span> of
+            digital Solutions.
+          </h1>
+          <p
+            class="text-lg md:text-xl text-on-surface-variant max-w-xl mb-10 font-medium leading-relaxed"
+          >
+            Vlok Production delivers digital solutions that blend technical precision with creative execution. We build products designed to command attention and engineered to drive performance
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a
+              class="bg-primary text-white px-8 py-4 rounded-xl text-lg font-bold flex items-center gap-3 hover:bg-secondary transition-all group"
+              href="pricing.html"
+            >
+              Start Building
+              <span
+                class="material-symbols-outlined transition-transform group-hover:translate-x-1"
+                data-icon="arrow_forward"
+                >arrow_forward</span
+              >
+            </a>
+            <a
+              class="border-[2.5px] border-primary text-primary px-8 py-4 rounded-xl text-lg font-bold hover:bg-primary hover:text-white transition-all flex items-center gap-2"
+              href="projects.html"
+            >
+              View Portfolio
+              <span class="material-symbols-outlined" data-icon="auto_awesome"
+                >auto_awesome</span
+              >
+            </a>
+          </div>
+        </div>
+        <div class="relative hidden min-h-[420px] lg:block lg:min-h-[560px]">
+          <div class="hero-logo-stage">
+            <div class="hero-logo-backdrop"></div>
+            <svg
+              class="hero-logo-svg"
+              viewBox="0 0 520 520"
+              aria-hidden="true"
+            >
+              <g class="hero-logo-ambient">
+                <circle class="hero-logo-halo" cx="260" cy="260" r="100"></circle>
+
+                <circle class="hero-logo-dot" cx="260" cy="54" r="11"></circle>
+                <line class="hero-logo-ray" x1="260" y1="88" x2="260" y2="172"></line>
+
+                <circle class="hero-logo-dot hero-logo-delay-1" cx="381" cy="93" r="11"></circle>
+                <line class="hero-logo-ray hero-logo-delay-1" x1="361" y1="122" x2="312" y2="190"></line>
+
+                <circle class="hero-logo-dot hero-logo-delay-2" cx="456" cy="199" r="11"></circle>
+                <line class="hero-logo-ray hero-logo-delay-2" x1="423" y1="209" x2="343" y2="235"></line>
+
+                <circle class="hero-logo-dot hero-logo-delay-3" cx="456" cy="321" r="11"></circle>
+                <line class="hero-logo-ray hero-logo-delay-3" x1="423" y1="311" x2="343" y2="285"></line>
+
+                <circle class="hero-logo-dot hero-logo-delay-4" cx="381" cy="427" r="11"></circle>
+                <line class="hero-logo-ray hero-logo-delay-4" x1="361" y1="398" x2="312" y2="330"></line>
+
+                <circle class="hero-logo-dot hero-logo-delay-5" cx="260" cy="466" r="11"></circle>
+                <line class="hero-logo-ray hero-logo-delay-5" x1="260" y1="432" x2="260" y2="348"></line>
+
+                <circle class="hero-logo-dot hero-logo-delay-6" cx="139" cy="427" r="11"></circle>
+                <line class="hero-logo-ray hero-logo-delay-6" x1="159" y1="398" x2="208" y2="330"></line>
+
+                <circle class="hero-logo-dot hero-logo-delay-7" cx="64" cy="321" r="11"></circle>
+                <line class="hero-logo-ray hero-logo-delay-7" x1="97" y1="311" x2="177" y2="285"></line>
+
+                <circle class="hero-logo-dot hero-logo-delay-8" cx="64" cy="199" r="11"></circle>
+                <line class="hero-logo-ray hero-logo-delay-8" x1="97" y1="209" x2="177" y2="235"></line>
+
+                <circle class="hero-logo-dot hero-logo-delay-9" cx="139" cy="93" r="11"></circle>
+                <line class="hero-logo-ray hero-logo-delay-9" x1="159" y1="122" x2="208" y2="190"></line>
+
+                <circle class="hero-logo-ring" cx="260" cy="260" r="58"></circle>
+                <circle class="hero-logo-core" cx="260" cy="260" r="40"></circle>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Partners Section -->
+    <section class="py-12 px-6">
+      <div class="max-w-7xl mx-auto">
+        <div
+          class="flex flex-col items-center justify-between gap-6 px-2 py-2 md:flex-row"
+        >
+          <div class="text-center md:text-left">
+            <p class="text-xs font-black uppercase tracking-[0.26em] text-primary/45">
+              Our Partners
+            </p>
+            <p class="mt-2 text-sm font-medium text-on-surface-variant/70">
+              Trusted by ambitious brands building with speed and precision.
+            </p>
+          </div>
+          <div class="partners-marquee w-full max-w-4xl">
+            <div class="partners-track text-lg md:text-xl font-bold tracking-tight text-on-surface-variant/55">
+              <span>GANTHERA SAFARI</span>
+              <span>I SHOP MARKETING</span>
+              <span>AEON TRAVELS & TOURS</span>
+              <span>J GLOBAL SOLUTIONS</span>
+              <span>KINETIX LABS</span>
+              <span aria-hidden="true">GANTHERA SAFARI</span>
+              <span aria-hidden="true">I SHOP MARKETING</span>
+              <span aria-hidden="true">AEON TRAVELS & TOURS</span>
+              <span aria-hidden="true">J GLOBAL SOLUTIONS</span>
+              <span aria-hidden="true">KINETIX LABS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Why Vlok? (Bento Grid) -->
+    <section class="py-24 px-6">
+      <div class="max-w-7xl mx-auto">
+        <div
+          class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6"
+        >
+          <div class="max-w-2xl">
+            <h2
+              class="text-4xl md:text-5xl font-black text-on-surface mb-6 tracking-tight"
+            >
+              Why
+              <span
+                class="text-primary underline decoration-4 underline-offset-8"
+                >Vlok Production?</span
+              >
+            </h2>
+            <p class="text-lg text-on-surface-variant font-medium">
+              We don't just build websites; we architect ecosystems that
+              leverage designs and robust technical backends.
+            </p>
+          </div>
+          <div class="hidden md:block">
+            <span
+              class="material-symbols-outlined text-primary text-6xl"
+              data-icon="architecture"
+              >architecture</span
+            >
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Large Card -->
+          <div
+            class="showcase-card md:col-span-2 group bg-surface-container-lowest border-4 border-primary/5 rounded-lg px-6 py-8 md:p-10 relative overflow-hidden transition-all hover:border-primary/20"
+          >
+            <div class="absolute -top-4 -left-4 blueprint-plus"></div>
+            <div class="absolute -bottom-4 -right-4 blueprint-plus"></div>
+            <div class="relative z-10 flex flex-col h-full justify-between gap-8 md:gap-0">
+              <div class="max-w-full md:max-w-[60%]">
+                <div
+                  class="w-14 h-14 md:w-16 md:h-16 bg-primary-fixed rounded-lg flex items-center justify-center mb-6 md:mb-8"
+                >
+                  <span
+                    class="material-symbols-outlined text-primary text-3xl"
+                    data-icon="schema"
+                    >schema</span
+                  >
+                </div>
+                <h3 class="text-2xl md:text-3xl font-black mb-4">How do we operate?</h3>
+                <p class="text-sm md:text-base text-on-surface-variant leading-relaxed max-w-md">
+                  Your ideas, our craft. We work side-by-side with you to tailor solutions that fit your unique goals. See how we collaborate with our clients.
+                </p>
+              </div>
+              <a class="flex items-center gap-3 md:gap-4 text-primary font-bold text-sm md:text-base" href="about.html#process-section">
+                Explore our methodology
+                <span
+                  class="material-symbols-outlined"
+                  data-icon="trending_flat"
+                  >trending_flat</span
+                >
+              </a>
+            </div>
+            <div
+              class="pointer-events-none absolute right-4 top-4 w-28 opacity-20 transition-opacity group-hover:opacity-25 md:top-10 md:right-10 md:w-auto md:opacity-90 md:group-hover:opacity-20"
+            >
+              <img
+                class="w-full md:w-64 rounded"
+                data-alt="architectural blueprint sketches with technical notations and grid lines in blue ink style"
+                src="./img/web-backlink_17676284.png"
+              />
+            </div>
+          </div>
+          <!-- Small Card 1 -->
+          <div
+            class="showcase-card bg-primary text-white rounded-lg p-10 relative overflow-hidden flex flex-col justify-between hover:scale-[1.02] transition-transform"
+          >
+            <div class="absolute top-0 right-0 p-4">
+              <span
+                class="material-symbols-outlined text-4xl"
+                data-icon="pentagon"
+                >pentagon</span
+              >
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold mb-4">What Technologies?</h3>
+              <p class="text-blue-100/80">
+                We craft bold designs powered by clean, high-performance code. Prioritizing accessibility and precision. Engineers and tech leads, click here
+              </p>
+            </div>
+            <a
+              class="bg-white/20 backdrop-blur-md rounded-full py-3 px-6 text-center font-bold mt-8"
+              href="about.html#tech-stack-section"
+            >
+              View Technical Stack
+            </a>
+          </div>
+          <!-- Small Card 2 -->
+          <div
+            class="showcase-card bg-surface-container-highest border-4 border-primary/5 rounded-lg p-10 flex flex-col justify-between hover:border-primary/20 transition-all"
+          >
+            <div>
+              <div
+                class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm border border-primary/10"
+              >
+                <span
+                  class="material-symbols-outlined text-primary"
+                  data-icon="rocket_launch"
+                  >rocket_launch</span
+                >
+              </div>
+              <h3 class="text-2xl font-bold mb-4">Rapid Execution !</h3>
+              <p class="text-on-surface-variant">
+                From concept to deployment in record time without compromising
+                on the blueprint.
+              </p>
+            </div>
+            <div class="mt-8">
+              <a
+                class="mb-6 w-full rounded-full border-2 border-primary bg-white px-5 py-3 text-sm font-bold text-primary transition-all hover:bg-primary hover:text-white"
+                href="projects.html"
+              >
+                See Our Project Timelines
+              </a>
+            </div>
+          </div>
+          <!-- Large Card 2 -->
+          <div
+            class="showcase-card md:col-span-2 bg-secondary-container text-white rounded-lg p-10 relative overflow-hidden group"
+          >
+            <div class="grid md:grid-cols-2 gap-10 items-center">
+              <div>
+                <div
+                  class="inline-block bg-white/20 px-3 py-1 rounded mb-4 text-xs font-bold uppercase tracking-widest"
+                >
+                  Innovation
+                </div>
+                <h3 class="text-3xl font-black mb-6">
+                  Built for the future of the decentralized web.
+                </h3>
+                <p class="text-blue-50/80 mb-8 font-medium">
+                  We integrate Web3, AI, and immersive spatial design into every
+                  core production module.
+                </p>
+                <a
+                  class="bg-white text-primary px-8 py-3 rounded-full font-bold shadow-lg"
+                  href="about.html"
+                >
+                  Learn More
+                </a>
+              </div>
+              <div class="relative">
+                <img
+                  class="rounded-xl  rotate-3 group-hover:rotate-0 transition-transform duration-500 shadow-2xl"
+                  data-alt="abstract 3D glass shapes floating over a structured blue grid background representing high-tech innovation"
+                  src="./img/digital-marketing_18408050.png"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Stats / Trust Section -->
+    <section
+      class="py-12 bg-surface-container-low border-y-4 border-primary/10"
+    >
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div class="text-center">
+            <div class="text-4xl font-black text-primary mb-1">10+</div>
+            <div
+              class="text-xs font-bold uppercase tracking-widest text-slate-500"
+            >
+              Projects Delivered
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="text-4xl font-black text-primary mb-1">98%</div>
+            <div
+              class="text-xs font-bold uppercase tracking-widest text-slate-500"
+            >
+              Client Success
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="text-4xl font-black text-primary mb-1">12ms</div>
+            <div
+              class="text-xs font-bold uppercase tracking-widest text-slate-500"
+            >
+              Avg Response
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="text-4xl font-black text-primary mb-1">15+</div>
+            <div
+              class="text-xs font-bold uppercase tracking-widest text-slate-500"
+            >
+              Clients
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Latest Innovation Section -->
+    <section class="py-24 bg-primary relative overflow-hidden">
+      <!-- Abstract Shapes -->
+      <div
+        class="absolute top-20 -left-20 w-80 h-80 border-[20px] border-white/5 rounded-full"
+      ></div>
+      <div
+        class="absolute bottom-20 -right-20 w-80 h-80 border-[20px] border-white/5 rounded-lg rotate-45"
+      ></div>
+      <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <div class="text-center mb-20">
+          <h2
+            class="text-white text-5xl md:text-6xl font-black mb-8 tracking-tighter"
+          >
+            Our Latest Innovation
+          </h2>
+          <div class="h-2 w-32 bg-white mx-auto rounded-full"></div>
+        </div>
+        <div
+          class="bg-white rounded-lg p-8 md:p-16 shadow-2xl flex flex-col lg:flex-row gap-16 items-center"
+        >
+          <div class="w-full lg:w-1/2">
+            <div class="relative">
+              <div
+                class="absolute -top-6 -left-6 w-12 h-12 bg-secondary flex items-center justify-center rounded-lg shadow-lg rotate-12"
+              >
+                <span
+                  class="material-symbols-outlined text-white"
+                  data-icon="bolt"
+                  >bolt</span
+                >
+              </div>
+              <img
+                class="rounded-lg border-4 border-primary shadow-xl"
+                data-alt="futuristic software interface showing complex data analytics with vibrant blue and white visual elements"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqOFZIjnWJzbLWvuBJv2NxDJZFlWCYXHp69ubYwIJAEqAwzBpDNOkrXvJL_9X5xRu1QvIBsLn-w6HTDTlywbSl_Gqg88CXnJnUONHE6wUe_Kt1RjI821GdkAyH6Qh5Qs3C7kN1YWy0tZqTYOG233z7usIIJ6-AlK0bJB0UnzvpAZ3iG7vtldOyCuz9mHb1GmluXprBLaWjt8sBqzPyPyWw9kC-u9V-F-BISyyt5HkdQQSPfyY48c8Yj-KUFZxbySSPesXbj3bAm9Ve"
+              />
+            </div>
+          </div>
+          <div class="w-full lg:w-1/2">
+            <h3 class="text-3xl font-black text-primary mb-6">
+              Introducing Vlok Core 2.0
+            </h3>
+            <p class="text-on-surface-variant text-lg mb-8 leading-relaxed">
+              The ultimate framework for high-performance enterprise
+              applications. 2.0 brings integrated neural processing and a
+              modular visual builder that respects the blueprint philosophy.
+            </p>
+            <ul class="space-y-4 mb-10">
+              <li class="flex items-center gap-4 font-bold text-on-surface">
+                <span
+                  class="material-symbols-outlined text-primary"
+                  data-icon="check_circle"
+                  >check_circle</span
+                >
+                4x Faster Deployment Cycles
+              </li>
+              <li class="flex items-center gap-4 font-bold text-on-surface">
+                <span
+                  class="material-symbols-outlined text-primary"
+                  data-icon="check_circle"
+                  >check_circle</span
+                >
+                Native AI Engine Integration
+              </li>
+              <li class="flex items-center gap-4 font-bold text-on-surface">
+                <span
+                  class="material-symbols-outlined text-primary"
+                  data-icon="check_circle"
+                  >check_circle</span
+                >
+                Architectural Security Protocols
+              </li>
+            </ul>
+            <button
+              class="w-full md:w-auto bg-primary text-white px-10 py-4 rounded-xl font-black text-lg hover:bg-secondary transition-colors"
+            >
+              Request Early Access
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Pricing Overview Section -->
+    <section
+      class="py-24 bg-surface-container-low border-y-4 border-primary/10 relative overflow-hidden"
+    >
+      <div class="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
+        <span
+          class="material-symbols-outlined text-[200px]"
+          data-icon="payments"
+          >payments</span
+        >
+      </div>
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-black text-on-surface mb-4">
+            Scalable <span class="text-primary">Blueprints</span>
+          </h2>
+          <p class="text-on-surface-variant max-w-xl mx-auto font-medium">
+            Choose the architectural tier that fits your production velocity.
+          </p>
+          <a
+            class="mt-6 inline-flex items-center gap-2 rounded-full border-2 border-primary px-6 py-3 text-sm font-bold text-primary transition-all hover:bg-primary hover:text-white"
+            href="pricing.html"
+            >View More
+            <span
+              class="material-symbols-outlined text-base"
+              data-icon="arrow_forward"
+              >arrow_forward</span
+            >
+          </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Essential Plan -->
+          <div
+            class="showcase-card bg-white border-4 border-primary/5 rounded-2xl p-8 relative hover:border-primary/20 transition-all"
+          >
+            <div class="blueprint-plus absolute top-4 left-4 opacity-30"></div>
+            <h3 class="text-xl font-black mb-2">Essential</h3>
+            <div class="text-4xl font-black text-primary mb-6">
+              LKR 20,000<span class="text-base font-medium text-on-surface-variant"
+                >/yr</span
+              >
+            </div>
+            <ul class="space-y-4 mb-10">
+              <li class="flex items-center gap-3 text-sm font-bold">
+                <span
+                  class="material-symbols-outlined text-primary text-lg"
+                  data-icon="add"
+                  >add</span
+                >
+                Static Web Development
+              </li>
+              <li class="flex items-center gap-3 text-sm font-bold">
+                <span
+                  class="material-symbols-outlined text-primary text-lg"
+                  data-icon="add"
+                  >add</span
+                >
+                Standard Support
+              </li>
+              <li class="flex items-center gap-3 text-sm font-bold">
+                <span
+                  class="material-symbols-outlined text-primary text-lg"
+                  data-icon="add"
+                  >add</span
+                >
+                View More
+              </li>
+            </ul>
+            <a
+              class="block w-full rounded-lg border-2 border-primary py-3 text-center font-bold text-primary transition-all hover:bg-primary hover:text-white"
+              href="pricing.html"
+              >View More</a
+            >
+          </div>
+          <!-- Growth Plan (Featured) -->
+          <div
+            class="showcase-card bg-primary text-white rounded-2xl p-8 relative shadow-2xl scale-105 z-10 overflow-hidden"
+          >
+            <div
+              class="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full flex items-center justify-center rotate-12"
+            >
+              <span
+                class="material-symbols-outlined text-white text-4xl"
+                data-icon="star"
+                data-weight="fill"
+                >star</span
+              >
+            </div>
+            <h3 class="text-xl font-black mb-2">Growth</h3>
+            <div class="text-4xl font-black mb-6">
+              LKR 45,000<span class="text-base font-medium text-blue-100"></span>
+            </div>
+            <ul class="space-y-4 mb-10">
+              <li class="flex items-center gap-3 text-sm font-bold">
+                <span
+                  class="material-symbols-outlined text-white text-lg"
+                  data-icon="add"
+                  >add</span
+                >
+                Multi-Page Web
+              </li>
+              <li class="flex items-center gap-3 text-sm font-bold">
+                <span
+                  class="material-symbols-outlined text-white text-lg"
+                  data-icon="add"
+                  >add</span
+                >
+                Customizable Content through CMS
+              </li>
+              <li class="flex items-center gap-3 text-sm font-bold">
+                <span
+                  class="material-symbols-outlined text-white text-lg"
+                  data-icon="add"
+                  >add</span
+                >
+                View More
+              </li>
+            </ul>
+            <a
+              class="block w-full rounded-lg bg-white py-3 text-center font-bold text-primary shadow-lg"
+              href="pricing.html"
+              >View More</a
+            >
+          </div>
+          <!-- Enterprise Plan -->
+          <div
+            class="showcase-card bg-white border-4 border-primary/5 rounded-2xl p-8 relative hover:border-primary/20 transition-all"
+          >
+            <div class="blueprint-plus absolute top-4 left-4 opacity-30"></div>
+            <h3 class="text-xl font-black mb-2">Enterprise</h3>
+            <div class="text-4xl font-black text-primary mb-6">
+              Custom
+            </div>
+            <ul class="space-y-4 mb-10">
+              <li class="flex items-center gap-3 text-sm font-bold">
+                <span
+                  class="material-symbols-outlined text-primary text-lg"
+                  data-icon="add"
+                  >add</span
+                >
+                Custom Analysis on Problems
+              </li>
+              <li class="flex items-center gap-3 text-sm font-bold">
+                <span
+                  class="material-symbols-outlined text-primary text-lg"
+                  data-icon="add"
+                  >add</span
+                >
+                Dedicated Architecture
+              </li>
+              <li class="flex items-center gap-3 text-sm font-bold">
+                <span
+                  class="material-symbols-outlined text-primary text-lg"
+                  data-icon="add"
+                  >add</span
+                >
+                24/7 Ops Support
+              </li>
+            </ul>
+            <a
+              class="block w-full rounded-lg border-2 border-primary py-3 text-center font-bold text-primary transition-all hover:bg-primary hover:text-white"
+              href="pricing.html"
+              >View More</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Memphis Accents Footer Decorative -->
+    <div class="flex justify-center gap-12 py-12 opacity-30 select-none">
+      <span
+        class="material-symbols-outlined text-primary text-4xl"
+        data-icon="star"
+        >star</span
+      >
+      <span
+        class="material-symbols-outlined text-primary text-4xl"
+        data-icon="circle"
+        >circle</span
+      >
+      <span
+        class="material-symbols-outlined text-primary text-4xl"
+        data-icon="change_history"
+        >change_history</span
+      >
+      <span
+        class="material-symbols-outlined text-primary text-4xl"
+        data-icon="star"
+        >star</span
+      >
+    </div>
+    <!-- Footer -->
+    <footer class="relative w-full py-12 bg-blue-50 border-t-4 border-blue-700">
+      <div
+        class="flex flex-col md:flex-row justify-between items-center px-12 gap-8 max-w-7xl mx-auto"
+      >
+        <div class="text-center md:text-left">
+          <div class="text-xl font-black text-blue-700 mb-2">
+            Vlok Production
+          </div>
+          <p class="text-slate-500 font-medium text-sm">
+            © 2024 Vlok Production. Built on the Blueprint.
+          </p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-8">
+          <a
+            class="text-slate-500 font-medium text-sm hover:text-blue-700 underline decoration-2 transition-opacity opacity-80 hover:opacity-100"
+            href="#"
+            >Services</a
+          >
+          <a
+            class="text-slate-500 font-medium text-sm hover:text-blue-700 underline decoration-2 transition-opacity opacity-80 hover:opacity-100"
+            href="#"
+            >Case Studies</a
+          >
+          <a
+            class="text-slate-500 font-medium text-sm hover:text-blue-700 underline decoration-2 transition-opacity opacity-80 hover:opacity-100"
+            href="#"
+            >Privacy Policy</a
+          >
+          <a
+            class="text-slate-500 font-medium text-sm hover:text-blue-700 underline decoration-2 transition-opacity opacity-80 hover:opacity-100"
+            href="#"
+            >Terms of Service</a
+          >
+        </div>
+        <div class="flex gap-4">
+          <div
+            class="w-10 h-10 rounded-full border-2 border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer"
+          >
+            <span
+              class="material-symbols-outlined text-xl"
+              data-icon="alternate_email"
+              >alternate_email</span
+            >
+          </div>
+          <div
+            class="w-10 h-10 rounded-full border-2 border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer"
+          >
+            <span class="material-symbols-outlined text-xl" data-icon="language"
+              >language</span
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script>
+      (() => {
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const seen = new Set();
+        const registerTargets = (selector, className, baseDelay) => {
+          document.querySelectorAll(selector).forEach((element, index) => {
+            if (seen.has(element) || element.closest("nav, footer, [data-mobile-nav], [data-page-loader]")) return;
+            seen.add(element);
+            element.classList.add(className);
+            element.style.setProperty("--reveal-delay", `${(index % 8) * baseDelay}ms`);
+          });
+        };
+
+        registerTargets("header h1, header h2, header h3, header p, main h1, main h2, main h3, main h4, main p, main li, main label", "reveal-text", 55);
+        registerTargets(".showcase-card, main .group.relative, main section > div.bg-surface-container-lowest, main section > div.bg-primary", "reveal-card", 90);
+
+        const targets = document.querySelectorAll(".reveal-text, .reveal-card");
+        if (!targets.length) return;
+
+        if (reduceMotion || !("IntersectionObserver" in window)) {
+          targets.forEach((element) => element.classList.add("is-visible"));
+          return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          });
+        }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+
+        targets.forEach((element) => observer.observe(element));
+      })();
+
+      (() => {
+        const heroCycle = document.querySelector("[data-hero-cycle]");
+        if (!heroCycle) return;
+
+        const labels = [
+          "Engineering Creativity",
+          "Designing",
+          "Developing",
+          "Deploying",
+          "Maintaining",
+        ];
+
+        let index = 0;
+        let isDeleting = false;
+
+        const type = () => {
+          const currentLabel = labels[index];
+          const nextText = isDeleting
+            ? currentLabel.slice(0, heroCycle.textContent.length - 1)
+            : currentLabel.slice(0, heroCycle.textContent.length + 1);
+
+          heroCycle.textContent = nextText;
+
+          let delay = isDeleting ? 55 : 85;
+
+          if (!isDeleting && nextText === currentLabel) {
+            delay = 1200;
+            isDeleting = true;
+          } else if (isDeleting && nextText === "") {
+            isDeleting = false;
+            index = (index + 1) % labels.length;
+            delay = 180;
+          }
+
+          setTimeout(type, delay);
+        };
+
+        heroCycle.textContent = "";
+        type();
+      })();
+
+      (() => {
+        const mobileNav = document.querySelector("[data-mobile-nav]");
+        const openButton = document.querySelector("[data-mobile-nav-open]");
+        const closeButton = document.querySelector("[data-mobile-nav-close]");
+        const navLinks = mobileNav
+          ? mobileNav.querySelectorAll("a")
+          : [];
+
+        if (!mobileNav || !openButton || !closeButton) return;
+
+        const setMenuState = (isOpen) => {
+          mobileNav.classList.toggle("is-open", isOpen);
+          mobileNav.setAttribute("aria-hidden", String(!isOpen));
+          openButton.setAttribute("aria-expanded", String(isOpen));
+          document.body.classList.toggle("mobile-menu-open", isOpen);
+        };
+
+        openButton.addEventListener("click", () => setMenuState(true));
+        closeButton.addEventListener("click", () => setMenuState(false));
+
+        navLinks.forEach((link) => {
+          link.addEventListener("click", () => setMenuState(false));
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") {
+            setMenuState(false);
+          }
+        });
+      })();
+
+    </script>
+  </body>
 </html>
